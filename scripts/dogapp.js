@@ -43,7 +43,7 @@ const dogImg = await getDogs()
 const userProfile = await getRandomUsers()
 
 const profileCard = document.createElement('div')
-const profileCard.classlist.add('.profile-card')
+profileCard.classlist.add('.profile-card')
 
 const profileName = document.createElement('p')
 profileName.textContent = `${userProfile.name.first} ${userProfile.name.last}`;
