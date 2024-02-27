@@ -1,0 +1,72 @@
+/* Color palette
+
+Dark blue (footer, etc)          #131B28
+Red (h1-h6, etc)                 #e75a7c
+Ivory (background, text, etc)    #f2f5ea
+Sage                             #bbc7a4
+Timberwolf (header)              #d6dbd2
+*/
+
+body {
+    width: 1200px;
+    background: url(../assets/grass.jpg) no-repeat;
+    background-size: cover;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    font-family: "Poppins", sans-serif;
+    color:#ffffff;
+  }
+  
+  h1 {
+    font-family: "Lobster", sans-serif;
+    font-size: 6rem;
+    margin: 3rem 0;
+    line-height: 90%;
+    letter-spacing: 0.1rem;
+    color: #d65335;
+  }
+  
+  h2,
+  h3,
+  h4 {
+    text-transform: uppercase;
+    color: #d65335;
+  }
+  
+  header {
+    text-align: center;
+  }
+
+  .card-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    align-content: space-between;
+ }
+  
+  .card {
+    flex: 0 1 18%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    width: 15%;
+    margin: auto;
+    border-radius: 5px;
+    background-color:#5aa099be;
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+    background-color:#5aa099ef;
+  }
+  
+  .container {
+    padding: 2px 16px;
+  }
+  
+  /* Rounded corners on top */
+  img {
+    border-radius: 5px 5px 0px 0px;
+  }
+  
