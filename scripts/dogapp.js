@@ -15,3 +15,23 @@ async function getDogs() {
 function showDogs() {
     console.log(dogsApi);
 }
+
+function createDogsProfileCard()
+
+const dogImg = await getDogs()
+const userProfile = await getRandomUsers()
+
+const profileCard = document.createElement('div')
+const profileCard.classlist.add('.profile-card')
+
+const profileName = document.createElement('p')
+profileName.textContent = `${userProfile.name.first} ${userProfile.name.last}`;
+profileName.appendChild(profileName)
+
+const profileLocation = document.createElement('p')
+profileLocation.textContent = `${userProfile.location.city} ${userProfile.location.country}`;
+profileLocation.appendChild(profileLocation)
+
+const profileImg = document.createElement('img')
+profileImg.scr = dogImg
+profileImg.appendChild(profileImg)
