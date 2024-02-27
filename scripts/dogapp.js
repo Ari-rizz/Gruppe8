@@ -88,3 +88,5 @@ console.log('Kunne ikke laste inn brukerdata:'+ error);
 }
 createDogsProfileCard();
 //tror denne nå skal funke -Arian
+const newDogBtn = document.querySelector('new-dog-btn')
+//starta på en button her men dere kan forsette
