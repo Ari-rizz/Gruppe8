@@ -51,11 +51,11 @@ profileName.appendChild(profileName);
 
 const profileLocation = document.createElement('p');
 profileLocation.textContent = `${userProfile.location.city} ${userProfile.location.country}`;
-profileLocation.appendChild(profileLocation);
+profileLocation.appendChild(profileLocation)
 
-const profileImg = document.createElement('img');
-profileImg.scr = dogImg;
-profileImg.appendChild(profileImg);
+const profileImg = document.createElement('img')
+profileImg.scr = dogImg
+profileImg.appendChild(profileImg)
 
 const deleteButton = document.createElement('button');
 deleteButton.textContent = 'delete';
