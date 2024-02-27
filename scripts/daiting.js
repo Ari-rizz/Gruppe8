@@ -9,4 +9,3 @@ else if(event.key === `ArrowRigth`){
     newProfile();
 }
 };
-funker det
