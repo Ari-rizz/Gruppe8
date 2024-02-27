@@ -7,8 +7,8 @@ async function getDogs() {
         );
         const data = await response.json();
         dogsImages = data.message;
-        showDogs()
-        createDogsProfileCard()
+        showDogs();
+        createDogsProfileCard();
         setTimeout(showDogs, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn hundedata: " + error);
@@ -24,8 +24,8 @@ async function getRandomUsers() {
         );
         const data = await response.json();
         usersApi = data.results;
-        showUsers()
-        createDogsProfileCard()
+        showUsers();
+        createDogsProfileCard();
         setTimeout(showUsers, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn brukerdata: " + error);
@@ -53,37 +53,36 @@ function dogs() {
 }
 console.log(dogs);
 
-async function createDogsProfileCard(){
-try{
-const dogImg = await getDogs();
-const userProfile = await getRandomUsers();
+async function createDogsProfileCard() {
+    try {
+        const dogImg = await getDogs();
+        const userProfile = await getRandomUsers();
 
-for (let i = 0; i < dogsImages.length; i++){
-const profileCard = document.createElement('div');
-profileCard.classList.add('card');
+        for (let i = 0; i < dogsImages.length; i++) {
+            const profileCard = document.createElement("div");
+            profileCard.classList.add("card");
 
-const profileName = document.createElement('p');
-profileName.textContent = `${userProfile[i].name.first} ${userProfile[i].name.last}`;
-profileCard.appendChild(profileName);
+            const profileName = document.createElement("p");
+            profileName.textContent = `${userProfile[i].name.first} ${userProfile[i].name.last}`;
+            profileCard.appendChild(profileName);
 
-const profileLocation = document.createElement('p');
-profileLocation.textContent = `${userProfile[i].location.city} ${userProfile[i].location.country}`;
-profileCard.appendChild(profileLocation)
+            const profileLocation = document.createElement("p");
+            profileLocation.textContent = `${userProfile[i].location.city} ${userProfile[i].location.country}`;
+            profileCard.appendChild(profileLocation);
 
-const profileImg = document.createElement('img')
-profileImg.src = dogImg
-profileCard.appendChild(profileImg)
+            const profileImg = document.createElement("img");
+            profileImg.src = dogImg;
+            profileCard.appendChild(profileImg);
 
-
-const deleteButton = document.createElement('button');
-deleteButton.textContent = 'delete';
-deleteButton.addEventListener('click', () => { 
-    profileCard.remove();
-});
-document.body.appendChild(profileCard);
-}
-} catch (error) {
-console.log('Kunne ikke laste inn brukerdata:'+ error);
-}
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "delete";
+            deleteButton.addEventListener("click", () => {
+                profileCard.remove();
+            });
+            document.body.appendChild(profileCard);
+        }
+    } catch (error) {
+        console.log("Kunne ikke laste inn brukerdata:" + error);
+    }
 }
 createDogsProfileCard();
