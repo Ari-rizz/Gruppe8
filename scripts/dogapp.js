@@ -1,5 +1,6 @@
 // lager async funksjon som leser api og returnerer data fra https://dog.ceo
 let dogsApi = [];
+getDogs();
 async function getDogs() {
     try {
         const response = await fetch(
@@ -7,7 +8,7 @@ async function getDogs() {
         );
         const data = await response.json();
         dogsApi = data.message;
-        setTimeout(showDogs, 100);
+        setTimeout(showDogs, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn hundedata: " + error);
     }
