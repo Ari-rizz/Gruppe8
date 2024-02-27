@@ -21,17 +21,24 @@ function createDogsProfileCard()
 const dogImg = await getDogs()
 const userProfile = await getRandomUsers()
 
-const profileCard = document.createElement('div')
-const profileCard.classlist.add('.profile-card')
+const profileCard = document.createElement('div');
+profileCard.classlist.add('.profile-card');
 
-const profileName = document.createElement('p')
+const profileName = document.createElement('p');
 profileName.textContent = `${userProfile.name.first} ${userProfile.name.last}`;
-profileName.appendChild(profileName)
+profileName.appendChild(profileName);
 
-const profileLocation = document.createElement('p')
+const profileLocation = document.createElement('p');
 profileLocation.textContent = `${userProfile.location.city} ${userProfile.location.country}`;
-profileLocation.appendChild(profileLocation)
+profileLocation.appendChild(profileLocation);
 
-const profileImg = document.createElement('img')
-profileImg.scr = dogImg
-profileImg.appendChild(profileImg)
+const profileImg = document.createElement('img');
+profileImg.scr = dogImg;
+profileImg.appendChild(profileImg);
+
+const deleteButton = document.createElement('button');
+deleteButton.textContent = 'delete';
+deleteButton.addEventListener(click, () =>{ 
+    profileCard.remove();
+});
+deleteButton.appendChild(deleteButton);
