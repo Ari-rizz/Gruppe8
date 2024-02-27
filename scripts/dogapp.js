@@ -1,4 +1,3 @@
-// lager async funksjon som leser api og returnerer data fra https://dog.ceo
 let dogsImages = [];
 getDogs();
 async function getDogs() {
@@ -13,7 +12,6 @@ async function getDogs() {
         console.log("Kunne ikke laste inn hundedata: " + error);
     }
 }
-// Lager async funksjon som henter 50 brukere fra https://randomuser.me
 
 let usersApi = [];
 getRandomUsers();
