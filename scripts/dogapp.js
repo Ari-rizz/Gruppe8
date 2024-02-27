@@ -87,3 +87,4 @@ console.log('Kunne ikke laste inn brukerdata:'+ error);
 }
 }
 createDogsProfileCard();
+//tror denne nå skal funke -Arian
