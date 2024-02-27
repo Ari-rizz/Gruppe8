@@ -1,4 +1,3 @@
-// lager async funksjon som leser api og returnerer data fra https://dog.ceo
 let dogsImages = [];
 getDogs();
 async function getDogs() {
@@ -13,7 +12,6 @@ async function getDogs() {
         console.log("Kunne ikke laste inn hundedata: " + error);
     }
 }
-// Lager async funksjon som henter 50 brukere fra https://randomuser.me
 
 let usersApi = [];
 getRandomUsers();
@@ -36,6 +34,20 @@ function showDogs() {
 function showUsers() {
     console.log(usersApi);
 }
+
+let dogs = [];
+function dogs() {
+    // Lager et array som inneholder objekter med dogs. Henter bilde fra dogsImages og navn og bosted fra usersApi
+    for (let i = 0; i < dogsImages.length; i++) {
+        let dog = {
+            image: dogsImages[i],
+            name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
+            location: usersApi[i].location.city,
+        };
+        dogs.push(dog);
+    }
+}
+console.log(dogs);
 
 function createDogsProfileCard()
 
