@@ -75,3 +75,4 @@ deleteButton.addEventListener(click, () =>{
     profileCard.remove();
 });
 deleteButton.appendChild(deleteButton);
+funker det?
