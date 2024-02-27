@@ -7,6 +7,8 @@ async function getDogs() {
         );
         const data = await response.json();
         dogsImages = data.message;
+        showDogs()
+        createDogsProfileCard()
         setTimeout(showDogs, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn hundedata: " + error);
@@ -22,6 +24,8 @@ async function getRandomUsers() {
         );
         const data = await response.json();
         usersApi = data.results;
+        showUsers()
+        createDogsProfileCard()
         setTimeout(showUsers, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn brukerdata: " + error);
@@ -49,30 +53,37 @@ function dogs() {
 }
 console.log(dogs);
 
-function createDogsProfileCard()
-
+async function createDogsProfileCard(){
+try{
 const dogImg = await getDogs();
 const userProfile = await getRandomUsers();
 
+for (let i = 0; i < dogsImages.length; i++){
 const profileCard = document.createElement('div');
-profileCard.classlist.add('.profile-card');
+profileCard.classList.add('card');
 
 const profileName = document.createElement('p');
-profileName.textContent = `${userProfile.name.first} ${userProfile.name.last}`;
-profileName.appendChild(profileName);
+profileName.textContent = `${userProfile[i].name.first} ${userProfile[i].name.last}`;
+profileCard.appendChild(profileName);
 
 const profileLocation = document.createElement('p');
-profileLocation.textContent = `${userProfile.location.city} ${userProfile.location.country}`;
-profileLocation.appendChild(profileLocation)
+profileLocation.textContent = `${userProfile[i].location.city} ${userProfile[i].location.country}`;
+profileCard.appendChild(profileLocation)
 
 const profileImg = document.createElement('img')
-profileImg.scr = dogImg
-profileImg.appendChild(profileImg)
+profileImg.src = dogImg
+profileCard.appendChild(profileImg)
+
 
 const deleteButton = document.createElement('button');
 deleteButton.textContent = 'delete';
-deleteButton.addEventListener(click, () =>{ 
+deleteButton.addEventListener('click', () => { 
     profileCard.remove();
 });
-deleteButton.appendChild(deleteButton);
-funker det?
+document.body.appendChild(profileCard);
+}
+} catch (error) {
+console.log('Kunne ikke laste inn brukerdata:'+ error);
+}
+}
+createDogsProfileCard();
