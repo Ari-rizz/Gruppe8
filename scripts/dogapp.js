@@ -3,6 +3,8 @@ let usersApi = []; // Henter inn navn og bosted fra randomuser.me
 let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
 let cardSection = document.querySelector(".card-section");
 
+//const breedsToFilter = ["labrador","bulldog","pitbull","golden retriver","husky"] for filtrering av hunder,valgte bare 5 tilfeldigee
+
 getDogs();
 async function getDogs() {
     try {
@@ -34,16 +36,17 @@ async function getRandomUsers() {
 
 function makeDogsArray() {
     // Lager et array som inneholder objekter med dogs. Henter bilde fra dogsImages og navn og bosted fra usersApi
+    //    for (let i = 0; i < 10; i++)
     for (let i = 0; i < dogsImages.length; i++) {
         let dog = {
             image: dogsImages[i],
             name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
             location: usersApi[i].location.city,
+            // breed:fuksjon for breedfilter
         };
         dogs.push(dog);
     }
     createDogsProfileCard();
-    console.log(dogs);
 }
 
 function createDogsProfileCard() {
@@ -58,6 +61,15 @@ function createDogsProfileCard() {
         dogInfo.innerHTML += `<h3>${dogs[index].name}</h3>`;
         dogInfo.innerHTML += `<p>${dogs[index].location}</p>`;
         dogCard.appendChild(dogInfo);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "delete";
+        deleteButton.addEventListener("click", () => {
+            dogCard.remove();
+        });
+
+        dogCard.appendChild(deleteButton);
+
         cardSection.appendChild(dogCard);
     });
 }
