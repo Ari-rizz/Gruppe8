@@ -61,12 +61,19 @@ function createDogsProfileCard() {
     dogCard.appendChild(dogInfo);
 
     const deleteButton = document.createElement("button");
-    deleteButton.textContent = "delete";
+    deleteButton.textContent = "Slett";
     deleteButton.addEventListener("click", () => {
-     dogCard.remove();
+      dogCard.remove();
     });
-   
+
     dogCard.appendChild(deleteButton);
+
+    const chatButton = document.createElement("button");
+    chatButton.textContent = "Chat";
+    chatButton.addEventListener("click", () => {
+      //Chat funskjon her
+    });
+    dogCard.appendChild(chatButton);
 
     cardSection.appendChild(dogCard);
   });
