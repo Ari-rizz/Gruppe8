@@ -3,7 +3,7 @@ let usersApi = []; // Henter inn navn og bosted fra randomuser.me
 let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
 let cardSection = document.querySelector(".card-section");
 
-//const breedsToFilter = ["labrador","bulldog","pitbull","golden retriver","husky"] for filtrering av hunder,valgte bare 5 tilfeldige
+//const breedsToFilter = ["labrador","bulldog","pitbull","golden retriver","husky"] for filtrering av hunder,valgte bare 5 tilfeldigee
 
 getDogs();
 async function getDogs() {
