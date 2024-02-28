@@ -1,4 +1,8 @@
-let dogsImages = [];
+let dogsImages = []; // Henter inn bilder fra dog.ceo
+let usersApi = []; // Henter inn navn og bosted fra randomuser.me
+let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
+let cardSection = document.querySelector(".card-section");
+
 getDogs();
 async function getDogs() {
     try {
@@ -7,16 +11,13 @@ async function getDogs() {
         );
         const data = await response.json();
         dogsImages = data.message;
-        showDogs()
-        createDogsProfileCard()
-        setTimeout(showDogs, 500);
+        // createDogsProfileCard();
+        setTimeout(getRandomUsers, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn hundedata: " + error);
     }
 }
 
-let usersApi = [];
-getRandomUsers();
 async function getRandomUsers() {
     try {
         const response = await fetch(
@@ -24,23 +25,14 @@ async function getRandomUsers() {
         );
         const data = await response.json();
         usersApi = data.results;
-        showUsers()
-        createDogsProfileCard()
-        setTimeout(showUsers, 500);
+        // createDogsProfileCard();
+        setTimeout(makeDogsArray, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn brukerdata: " + error);
     }
 }
 
-function showDogs() {
-    console.log(dogsImages);
-}
-function showUsers() {
-    console.log(usersApi);
-}
-
-let dogs = [];
-function dogs() {
+function makeDogsArray() {
     // Lager et array som inneholder objekter med dogs. Henter bilde fra dogsImages og navn og bosted fra usersApi
     for (let i = 0; i < dogsImages.length; i++) {
         let dog = {
@@ -50,43 +42,57 @@ function dogs() {
         };
         dogs.push(dog);
     }
+    createDogsProfileCard();
 }
-console.log(dogs);
 
-async function createDogsProfileCard(){
-try{
-const dogImg = await getDogs();
-const userProfile = await getRandomUsers();
+function createDogsProfileCard() {
+    cardSection.innerHTML = "";
+    dogs.forEach((dog, index) => {
+        const dogCard = document.createElement("article");
+        dogCard.classList.add("card");
+        dogCard.innerHTML = `<img src= "${dogs[index].image}" alt="${dogs[index].name}" style="width: 100%">`;
 
-for (let i = 0; i < dogsImages.length; i++){
-const profileCard = document.createElement('div');
-profileCard.classList.add('card');
-
-const profileName = document.createElement('p');
-profileName.textContent = `${userProfile[i].name.first} ${userProfile[i].name.last}`;
-profileCard.appendChild(profileName);
-
-const profileLocation = document.createElement('p');
-profileLocation.textContent = `${userProfile[i].location.city} ${userProfile[i].location.country}`;
-profileCard.appendChild(profileLocation)
-
-const profileImg = document.createElement('img')
-profileImg.src = dogImg
-profileCard.appendChild(profileImg)
-
-
-const deleteButton = document.createElement('button');
-deleteButton.textContent = 'delete';
-deleteButton.addEventListener('click', () => { 
-    profileCard.remove();
-});
-document.body.appendChild(profileCard);
+        const dogInfo = document.createElement("div");
+        dogInfo.classList.add("container");
+        dogInfo.innerHTML += `<h3>${dogs[index].name}</h3>`;
+        dogInfo.innerHTML += `<p>${dogs[index].location}</p>`;
+        dogCard.appendChild(dogInfo);
+        cardSection.appendChild(dogCard);
+    });
 }
-} catch (error) {
-console.log('Kunne ikke laste inn brukerdata:'+ error);
-}
-}
-createDogsProfileCard();
-//tror denne nå skal funke -Arian
-const newDogBtn = document.querySelector('new-dog-btn')
-//starta på en button her men dere kan forsette
+// async function createDogsProfileCard() {
+//     try {
+//         const dogImg = await getDogs();
+//         const userProfile = await getRandomUsers();
+
+//         for (let i = 0; i < dogsImages.length; i++) {
+//             const profileCard = document.createElement("div");
+//             profileCard.classList.add("card");
+
+//             const profileName = document.createElement("p");
+//             profileName.textContent = `${userProfile[i].name.first} ${userProfile[i].name.last}`;
+//             profileCard.appendChild(profileName);
+
+//             const profileLocation = document.createElement("p");
+//             profileLocation.textContent = `${userProfile[i].location.city} ${userProfile[i].location.country}`;
+//             profileCard.appendChild(profileLocation);
+
+//             const profileImg = document.createElement("img");
+//             profileImg.src = dogImg;
+//             profileCard.appendChild(profileImg);
+
+//             const deleteButton = document.createElement("button");
+//             deleteButton.textContent = "delete";
+//             deleteButton.addEventListener("click", () => {
+//                 profileCard.remove();
+//             });
+//             document.body.appendChild(profileCard);
+//         }
+//     } catch (error) {
+//         console.log("Kunne ikke laste inn brukerdata:" + error);
+//     }
+// }
+// createDogsProfileCard();
+// //tror denne nå skal funke -Arian
+// const newDogBtn = document.querySelector("new-dog-btn");
+// //starta på en button her men dere kan forsette
