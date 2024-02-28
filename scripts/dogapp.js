@@ -3,7 +3,13 @@ let usersApi = []; // Henter inn navn og bosted fra randomuser.me
 let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
 let cardSection = document.querySelector(".card-section");
 
-//const breedsToFilter = ["labrador","bulldog","pitbull","golden retriver","husky"] for filtrering av hunder,valgte bare 5 tilfeldigee
+const breeds = [
+    { Labrador: "labrador" },
+    { Bulldog: "bulldog" },
+    { Pitbull: "pitbull" },
+    { GoldenRetriver: "retriever-golden" },
+    { Husky: "husky" },
+]; // for filtrering av hunder, valgte bare 5 tilfeldigee
 
 getDogs();
 async function getDogs() {
@@ -13,7 +19,6 @@ async function getDogs() {
         );
         const data = await response.json();
         dogsImages = data.message;
-        // createDogsProfileCard();
         setTimeout(getRandomUsers, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn hundedata: " + error);
@@ -27,7 +32,6 @@ async function getRandomUsers() {
         );
         const data = await response.json();
         usersApi = data.results;
-        // createDogsProfileCard();
         setTimeout(makeDogsArray, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn brukerdata: " + error);
@@ -36,7 +40,6 @@ async function getRandomUsers() {
 
 function makeDogsArray() {
     // Lager et array som inneholder objekter med dogs. Henter bilde fra dogsImages og navn og bosted fra usersApi
-    //    for (let i = 0; i < 10; i++)
     for (let i = 0; i < dogsImages.length; i++) {
         let dog = {
             image: dogsImages[i],
@@ -46,6 +49,7 @@ function makeDogsArray() {
         };
         dogs.push(dog);
     }
+    console.log(dogs);
     createDogsProfileCard();
 }
 
