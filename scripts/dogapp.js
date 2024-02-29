@@ -3,7 +3,6 @@ let usersApi = []; // Henter inn navn og bosted fra randomuser.me
 let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
 let cardSection = document.querySelector(".card-section");
 
-<<<<<<< HEAD
 const breeds = [
     { Labrador: "labrador" },
     { Bulldog: "bulldog" },
@@ -12,8 +11,6 @@ const breeds = [
     { Husky: "husky" },
 ]; // for filtrering av hunder, valgte bare 5 tilfeldigee
 
-=======
->>>>>>> 9808fc34f58e465256c7b3775731e2a4f4a5101f
 getDogs();
 async function getDogs() {
     try {
@@ -42,9 +39,11 @@ async function getRandomUsers() {
 }
 
 function makeDogsArray() {
-<<<<<<< HEAD
+    //Lager en const som skjekker om det er nok hunder //fikk hjelp av chatGBT med math.min, velger den med minst lengde
+    const isThereTenDogsLeft = Math.min(dogsImages.length, usersApi.length, 10);
     // Lager et array som inneholder objekter med dogs. Henter bilde fra dogsImages og navn og bosted fra usersApi
-    for (let i = 0; i < dogsImages.length; i++) {
+    dogs = []; //tømmer arrayet
+    for (let i = 0; i < isThereTenDogsLeft; i++) {
         let dog = {
             image: dogsImages[i],
             name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
@@ -53,27 +52,8 @@ function makeDogsArray() {
         };
         dogs.push(dog);
     }
-    console.log(dogs);
     createDogsProfileCard();
-=======
-
- //Lager en const som skjekker om det er nok hunder //fikk hjelp av chatGBT med math.min, velger den med minst lengde
- const isThereTenDogsLeft = Math.min(dogsImages.length, usersApi.length, 10);
-  // Lager et array som inneholder objekter med dogs. Henter bilde fra dogsImages og navn og bosted fra usersApi
-dogs=[]; //tømmer arrayet
-  for (let i = 0; i < isThereTenDogsLeft; i++) {
-    let dog = {
-      image: dogsImages[i],
-      name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
-      location: usersApi[i].location.city,
-      // breed:fuksjon for breedfilter
-    };
-    dogs.push(dog);
-  }
-  createDogsProfileCard();
->>>>>>> 9808fc34f58e465256c7b3775731e2a4f4a5101f
 }
-
 
 function createDogsProfileCard() {
     cardSection.innerHTML = "";
@@ -88,11 +68,11 @@ function createDogsProfileCard() {
         dogInfo.innerHTML += `<p>${dogs[index].location}</p>`;
         dogCard.appendChild(dogInfo);
 
-<<<<<<< HEAD
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Slett";
         deleteButton.addEventListener("click", () => {
             dogCard.remove();
+            dogs.splice(index, 1); //endrer arrayet
         });
 
         dogCard.appendChild(deleteButton);
@@ -106,40 +86,17 @@ function createDogsProfileCard() {
 
         cardSection.appendChild(dogCard);
     });
-=======
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Slett";
-    deleteButton.addEventListener("click", () => {
-      dogCard.remove();
-      dogs.splice(index, 1); //endrer arrayet
-    });
-
-
-    dogCard.appendChild(deleteButton);
-
-    const chatButton = document.createElement("button");
-    chatButton.textContent = "Chat";
-    chatButton.addEventListener("click", () => {
-      //Chat funskjon her
-    });
-    dogCard.appendChild(chatButton);
-
-    cardSection.appendChild(dogCard);
-  });
->>>>>>> 9808fc34f58e465256c7b3775731e2a4f4a5101f
 }
 
 const newDogBtn = document.querySelector("#new-dog-btn");
 newDogBtn.addEventListener("click", () => {
-    cardSection.innerHTML="";
+    cardSection.innerHTML = "";
     newDog();
-
 });
 
 //funksjon som fjerner de 10 første fra arrayet
-function newDog(){
+function newDog() {
+    dogs.splice(0, 10);
 
-dogs.splice(0, 10);
-
-makeDogsArray();
-};
+    makeDogsArray();
+}
