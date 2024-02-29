@@ -87,27 +87,17 @@ function createDogsProfileCard() {
 
 const newDogBtn = document.querySelector("#new-dog-btn");
 newDogBtn.addEventListener("click", () => {
-    cardSection.innerHTML="";
-    newDog();
     showDogs();
 });
 
-//funksjon som fjerner de 10 første fra arrayet
-function newDog(){
-
-dogs.splice(0, 10);
-
-makeDogsArray();
-};
-
 function showDogs(){
 const showingDogs = 10; // antall hunder som vises
-const shownDogs = dogs.slice(0, showingDogs)
+const shownDogs = dogs.slice(0, showingDogs); //legger hundene som er vist inn i shownDogs (tar ut og legges i nytt array)
 
 if(dogs.length <= showingDogs){
-    getDogs()
+    getDogs();
 }
-console.log("nye hunder")
+console.log("nye hunder", shownDogs);
 }
 //function showDogs(){
   // let dogsSeen = 0; //antall hunder sett
