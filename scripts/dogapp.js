@@ -67,6 +67,7 @@ function createDogsProfileCard() {
     deleteButton.addEventListener("click", () => {
       dogCard.remove();
       dogs.splice(index, 1); //endrer arrayet
+      showDogs()
     });
 
 
@@ -80,6 +81,7 @@ function createDogsProfileCard() {
     dogCard.appendChild(chatButton);
 
     cardSection.appendChild(dogCard);
+    console.log(dogs.length)
   });
 }
 
@@ -87,7 +89,7 @@ const newDogBtn = document.querySelector("#new-dog-btn");
 newDogBtn.addEventListener("click", () => {
     cardSection.innerHTML="";
     newDog();
-
+    showDogs();
 });
 
 //funksjon som fjerner de 10 første fra arrayet
@@ -97,3 +99,24 @@ dogs.splice(0, 10);
 
 makeDogsArray();
 };
+
+function showDogs(){
+const showingDogs = 10; // antall hunder som vises
+const shownDogs = dogs.slice(0, showingDogs)
+
+if(dogs.length <= showingDogs){
+    getDogs()
+}
+console.log("nye hunder")
+}
+//function showDogs(){
+  // let dogsSeen = 0; //antall hunder sett
+   // const totalDogs = dogs.length; //lengden på arrayet
+   // const shownEachTime = 10; //antall hver gang
+   // const dogsNotShown = totalDogs - dogsSeen; //antall hunder som ikke er vist
+   // const remainingDogs = Math.min(shownEachTime, dogsNotShown)// gjenværende antall hunder, math min vil velge det laveste antallet
+   // for(let i = 0; i < totalDogs; i += shownEachTime){
+     //   const shownDogs = dogs.slice(dogsSeen, dogsSeen + shownEachTime);
+     //   console.log(shownDogs);
+   // }
+//}- prøvde å lage en loop men funket ikke
