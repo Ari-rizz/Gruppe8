@@ -3,8 +3,6 @@ let usersApi = []; // Henter inn navn og bosted fra randomuser.me
 let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
 let cardSection = document.querySelector(".card-section");
 
-//const breedsToFilter = ["labrador","bulldog","pitbull","golden retriver","husky"] for filtrering av hunder,valgte bare 5 tilfeldigee
-
 getDogs();
 async function getDogs() {
   try {
@@ -33,9 +31,12 @@ async function getRandomUsers() {
 }
 
 function makeDogsArray() {
+
+ //Lager en const som skjekker om det er nok hunder //fikk hjelp av chatGBT med math.min, velger den med minst lengde
+ const isThereTenDogsLeft = Math.min(dogsImages.length, usersApi.length, 10);
   // Lager et array som inneholder objekter med dogs. Henter bilde fra dogsImages og navn og bosted fra usersApi
-  //    for (let i = 0; i < 10; i++)
-  for (let i = 0; i < dogsImages.length; i++) {
+dogs=[]; //tømmer arrayet
+  for (let i = 0; i < isThereTenDogsLeft; i++) {
     let dog = {
       image: dogsImages[i],
       name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
@@ -46,6 +47,7 @@ function makeDogsArray() {
   }
   createDogsProfileCard();
 }
+
 
 function createDogsProfileCard() {
   cardSection.innerHTML = "";
@@ -64,7 +66,9 @@ function createDogsProfileCard() {
     deleteButton.textContent = "Slett";
     deleteButton.addEventListener("click", () => {
       dogCard.remove();
+      dogs.splice(index, 1); //endrer arrayet
     });
+
 
     dogCard.appendChild(deleteButton);
 
@@ -78,39 +82,18 @@ function createDogsProfileCard() {
     cardSection.appendChild(dogCard);
   });
 }
-// async function createDogsProfileCard() {
-//     try {
-//         const dogImg = await getDogs();
-//         const userProfile = await getRandomUsers();
 
-//         for (let i = 0; i < dogsImages.length; i++) {
-//             const profileCard = document.createElement("div");
-//             profileCard.classList.add("card");
+const newDogBtn = document.querySelector("#new-dog-btn");
+newDogBtn.addEventListener("click", () => {
+    cardSection.innerHTML="";
+    newDog();
 
-//             const profileName = document.createElement("p");
-//             profileName.textContent = `${userProfile[i].name.first} ${userProfile[i].name.last}`;
-//             profileCard.appendChild(profileName);
+});
 
-//             const profileLocation = document.createElement("p");
-//             profileLocation.textContent = `${userProfile[i].location.city} ${userProfile[i].location.country}`;
-//             profileCard.appendChild(profileLocation);
+//funksjon som fjerner de 10 første fra arrayet
+function newDog(){
 
-//             const profileImg = document.createElement("img");
-//             profileImg.src = dogImg;
-//             profileCard.appendChild(profileImg);
+dogs.splice(0, 10);
 
-//             const deleteButton = document.createElement("button");
-//             deleteButton.textContent = "delete";
-//             deleteButton.addEventListener("click", () => {
-//                 profileCard.remove();
-//             });
-//             document.body.appendChild(profileCard);
-//         }
-//     } catch (error) {
-//         console.log("Kunne ikke laste inn brukerdata:" + error);
-//     }
-// }
-// createDogsProfileCard();
-// //tror denne nå skal funke -Arian
-// const newDogBtn = document.querySelector("new-dog-btn");
-// //starta på en button her men dere kan forsette
+makeDogsArray();
+};
