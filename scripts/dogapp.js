@@ -4,14 +4,49 @@ let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
 let cardSection = document.querySelector(".card-section");
 
 const breeds = [
-    { Labrador: "labrador" },
-    { Bulldog: "bulldog" },
-    { Pitbull: "pitbull" },
-    { GoldenRetriver: "retriever-golden" },
-    { Husky: "husky" },
+    {
+        Labrador: "labrador",
+        filter: false,
+    },
+    {
+        Bulldog: "bulldog",
+        filter: false,
+    },
+    {
+        Pitbull: "pitbull",
+        filter: false,
+    },
+    {
+        GoldenRetriver: "retriever-golden",
+        filter: false,
+    },
+    {
+        Husky: "husky",
+        filter: false,
+    },
 ]; // for filtrering av hunder, valgte bare 5 tilfeldigee
+getBreedDogs();
 
-getDogs();
+async function getBreedDogs() {
+    try {
+        const numberOfDogs = Math.floor(Math.random() * 5) + 5;
+        console.log(numberOfDogs);
+        let findBreed = "husky";
+        const response = await fetch(
+            `https://dog.ceo/api/breed/${findBreed}/images/random/${numberOfDogs}`
+        );
+        const data = await response.json();
+        dogsImages = data.message;
+        setTimeout(showDogBreeds, 500);
+    } catch (error) {
+        console.log("Kunne ikke laste inn hundedata: " + error);
+    }
+}
+
+function showDogBreeds() {
+    console.log(dogsImages);
+}
+// getDogs();
 async function getDogs() {
     try {
         const response = await fetch(
@@ -84,39 +119,16 @@ function createDogsProfileCard() {
         cardSection.appendChild(dogCard);
     });
 }
-// async function createDogsProfileCard() {
-//     try {
-//         const dogImg = await getDogs();
-//         const userProfile = await getRandomUsers();
+function sortOnBreed() {
+    // Filtrerer hunder etter rasene i arrayet breeds
+    // Finner de hundene som har finterOn = true
 
-//         for (let i = 0; i < dogsImages.length; i++) {
-//             const profileCard = document.createElement("div");
-//             profileCard.classList.add("card");
-
-//             const profileName = document.createElement("p");
-//             profileName.textContent = `${userProfile[i].name.first} ${userProfile[i].name.last}`;
-//             profileCard.appendChild(profileName);
-
-//             const profileLocation = document.createElement("p");
-//             profileLocation.textContent = `${userProfile[i].location.city} ${userProfile[i].location.country}`;
-//             profileCard.appendChild(profileLocation);
-
-//             const profileImg = document.createElement("img");
-//             profileImg.src = dogImg;
-//             profileCard.appendChild(profileImg);
-
-//             const deleteButton = document.createElement("button");
-//             deleteButton.textContent = "delete";
-//             deleteButton.addEventListener("click", () => {
-//                 profileCard.remove();
-//             });
-//             document.body.appendChild(profileCard);
-//         }
-//     } catch (error) {
-//         console.log("Kunne ikke laste inn brukerdata:" + error);
-//     }
-// }
-// createDogsProfileCard();
-// //tror denne nå skal funke -Arian
-// const newDogBtn = document.querySelector("new-dog-btn");
-// //starta på en button her men dere kan forsette
+    let filteredDogs = [];
+    for (let i = 0; i < dogs.length; i++) {
+        for (let j = 0; j < breeds.length; j++) {
+            if (dogs[i].image.includes(breeds[j].breed)) {
+                filteredDogs.push(dogs[i]);
+            }
+        }
+    }
+}
