@@ -66,8 +66,8 @@ function createDogsProfileCard() {
     deleteButton.textContent = "Slett";
     deleteButton.addEventListener("click", () => {
       dogCard.remove();
-      dogs.splice(index, 1); //endrer arrayet
-      showDogs()
+      dogs.splice(index, 1); //fjerner hunden fra arrayet
+      replaceCard()
     });
 
 
@@ -99,14 +99,16 @@ if(dogs.length <= showingDogs){
 }
 console.log("nye hunder", shownDogs);
 }
-//function showDogs(){
-  // let dogsSeen = 0; //antall hunder sett
-   // const totalDogs = dogs.length; //lengden på arrayet
-   // const shownEachTime = 10; //antall hver gang
-   // const dogsNotShown = totalDogs - dogsSeen; //antall hunder som ikke er vist
-   // const remainingDogs = Math.min(shownEachTime, dogsNotShown)// gjenværende antall hunder, math min vil velge det laveste antallet
-   // for(let i = 0; i < totalDogs; i += shownEachTime){
-     //   const shownDogs = dogs.slice(dogsSeen, dogsSeen + shownEachTime);
-     //   console.log(shownDogs);
-   // }
-//}- prøvde å lage en loop men funket ikke
+
+//function for å erstatte det slettede elemente
+function replaceCard(){
+    const newDogIndex = Math.floor(Math.random() * (dogsImages.length, usersApi.length));
+    const newDog = {
+        image: dogsImages[newDogIndex],
+        name: usersApi[newDogIndex].name.first,
+        location: usersApi[newDogIndex].location.city,
+    };
+    dogs.push(newDog)
+    createDogsProfileCard()
+};
+
