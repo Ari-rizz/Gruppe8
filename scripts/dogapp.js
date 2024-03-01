@@ -1,4 +1,4 @@
-let dogsImages = []; // Henter inn bilder fra dog.ceo
+let dogsObjects = []; // Henter inn bilder fra dog.ceo
 let usersApi = []; // Henter inn navn og bosted fra randomuser.me
 let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
 let cardSection = document.querySelector(".card-section");
@@ -25,41 +25,20 @@ const breeds = [
         filter: false,
     },
 ]; // for filtrering av hunder, valgte bare 5 tilfeldigee
-getBreedDogs();
+getDogs();
 
-async function getBreedDogs() {
-    try {
-        const numberOfDogs = Math.floor(Math.random() * 5) + 5;
-        console.log(numberOfDogs);
-        let findBreed = "husky";
-        const response = await fetch(
-            `https://dog.ceo/api/breed/${findBreed}/images/random/${numberOfDogs}`
-        );
-        const data = await response.json();
-        dogsImages = data.message;
-        setTimeout(showDogBreeds, 500);
-    } catch (error) {
-        console.log("Kunne ikke laste inn hundedata: " + error);
-    }
-}
-
-function showDogBreeds() {
-    console.log(dogsImages);
-}
-// getDogs();
 async function getDogs() {
     try {
         const response = await fetch(
             "https://dog.ceo/api/breeds/image/random/50"
         );
         const data = await response.json();
-        dogsImages = data.message;
+        dogsObjects = data.message;
         setTimeout(getRandomUsers, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn hundedata: " + error);
     }
 }
-
 async function getRandomUsers() {
     try {
         const response = await fetch(
@@ -67,7 +46,7 @@ async function getRandomUsers() {
         );
         const data = await response.json();
         usersApi = data.results;
-        setTimeout(makeDogsArray, 500);
+        setTimeout(makeDogsArray, 1000);
     } catch (error) {
         console.log("Kunne ikke laste inn brukerdata: " + error);
     }
@@ -75,9 +54,12 @@ async function getRandomUsers() {
 
 function makeDogsArray() {
     // Lager et array som inneholder objekter med dogs. Henter bilde fra dogsImages og navn og bosted fra usersApi
-    for (let i = 0; i < dogsImages.length; i++) {
+    console.log("Lager dogs-arrayet");
+    console.log(dogsObjects.length);
+    console.log(usersApi.length);
+    for (let i = 0; i < dogsObjects.length; i++) {
         let dog = {
-            image: dogsImages[i],
+            image: dogsObjects[i],
             name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
             location: usersApi[i].location.city,
             // breed:fuksjon for breedfilter
@@ -85,7 +67,13 @@ function makeDogsArray() {
         dogs.push(dog);
     }
     console.log(dogs);
-    createDogsProfileCard();
+    filterDogsOnRase();
+}
+
+function filterDogsOnRase() {
+    const rase = "retriever-golden";
+    let filtereddogs = dogs.filter((dog) => dog.image.includes(rase));
+    console.log(filtereddogs);
 }
 
 function createDogsProfileCard() {
@@ -118,17 +106,4 @@ function createDogsProfileCard() {
 
         cardSection.appendChild(dogCard);
     });
-}
-function sortOnBreed() {
-    // Filtrerer hunder etter rasene i arrayet breeds
-    // Finner de hundene som har finterOn = true
-
-    let filteredDogs = [];
-    for (let i = 0; i < dogs.length; i++) {
-        for (let j = 0; j < breeds.length; j++) {
-            if (dogs[i].image.includes(breeds[j].breed)) {
-                filteredDogs.push(dogs[i]);
-            }
-        }
-    }
 }
