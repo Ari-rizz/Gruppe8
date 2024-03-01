@@ -118,3 +118,27 @@ function replaceCard() {
     dogs.push(newDog);
     createDogsProfileCard();
 }
+
+const greeting = [
+    "Voff voff",
+    "Grrr!",
+    "Mjau?",
+    "Voff!",
+    "Voff voff voff",
+    "WRAFF",
+];
+
+function getRandomGreeting() {
+    const randomGreeting = Math.floor(Math.random() * greeting.length);
+    return greeting[randomGreeting];
+}
+
+function showGreeting() {
+    const showRandomGreeting = getRandomGreeting();
+    alert(showRandomGreeting);
+}
+
+const dogCards = document.querySelectorAll(".card-section");
+dogCards.forEach((dogCard) => {
+    dogCard.addEventListener("click", showGreeting);
+});
