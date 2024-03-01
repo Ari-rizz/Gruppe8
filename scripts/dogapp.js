@@ -1,44 +1,64 @@
-let dogsObjects = []; // Henter inn bilder fra dog.ceo
+let dogsImages = []; // Henter inn bilder fra dog.ceo
 let usersApi = []; // Henter inn navn og bosted fra randomuser.me
 let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
-let cardSection = document.querySelector(".card-section");
-
 const breeds = [
     {
-        Labrador: "labrador",
-        filter: false,
+        name: "Ditt valg",
     },
     {
-        Bulldog: "bulldog",
-        filter: false,
+        name: "Labrador",
+        race: "labrador",
     },
     {
-        Pitbull: "pitbull",
-        filter: false,
+        name: "Bulldog",
+        race: "bulldog",
     },
     {
-        GoldenRetriver: "retriever-golden",
-        filter: false,
+        name: "Pitbull",
+        race: "pitbull",
     },
     {
-        Husky: "husky",
-        filter: false,
+        name: "Golden Retriver",
+        race: "retriever-golden",
     },
-]; // for filtrering av hunder, valgte bare 5 tilfeldigee
-getDogs();
+    {
+        name: "Husky",
+        race: "husky",
+    },
+];
+let cardSection = document.querySelector(".card-section");
+const sortOnRace = document.querySelector("#sortOnRace"); // Til søkefunksjonen i dropdown-menyen
+const raceOptions = document.querySelector("#raceOptions");
 
+// Lager dropdown-menyen
+const options = Array.from(new Set(breeds.map((breed) => breed.name))); // for å få en liste med alle race-valgene)
+sortOnRace.innerHTML = options
+    .map((race) => `<option>${race}</option>`)
+    .join("");
+sortOnRace.addEventListener("change", () => {
+    dropdownResult(sortOnRace.value);
+});
+
+function dropdownResult(value) {
+    console.log(value);
+}
+
+function showSelectedBreed() {}
+
+getDogs();
 async function getDogs() {
     try {
         const response = await fetch(
             "https://dog.ceo/api/breeds/image/random/50"
         );
         const data = await response.json();
-        dogsObjects = data.message;
+        dogsImages = data.message;
         setTimeout(getRandomUsers, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn hundedata: " + error);
     }
 }
+
 async function getRandomUsers() {
     try {
         const response = await fetch(
@@ -46,34 +66,27 @@ async function getRandomUsers() {
         );
         const data = await response.json();
         usersApi = data.results;
-        setTimeout(makeDogsArray, 1000);
+        setTimeout(makeDogsArray, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn brukerdata: " + error);
     }
 }
 
 function makeDogsArray() {
+    //Lager en const som skjekker om det er nok hunder //fikk hjelp av chatGBT med math.min, velger den med minst lengde
+    const isThereTenDogsLeft = Math.min(dogsImages.length, usersApi.length, 10);
     // Lager et array som inneholder objekter med dogs. Henter bilde fra dogsImages og navn og bosted fra usersApi
-    console.log("Lager dogs-arrayet");
-    console.log(dogsObjects.length);
-    console.log(usersApi.length);
-    for (let i = 0; i < dogsObjects.length; i++) {
+    dogs = []; //tømmer arrayet
+    for (let i = 0; i < isThereTenDogsLeft; i++) {
         let dog = {
-            image: dogsObjects[i],
+            image: dogsImages[i],
             name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
             location: usersApi[i].location.city,
             // breed:fuksjon for breedfilter
         };
         dogs.push(dog);
     }
-    console.log(dogs);
-    filterDogsOnRase();
-}
-
-function filterDogsOnRase() {
-    const rase = "retriever-golden";
-    let filtereddogs = dogs.filter((dog) => dog.image.includes(rase));
-    console.log(filtereddogs);
+    createDogsProfileCard();
 }
 
 function createDogsProfileCard() {
@@ -93,6 +106,8 @@ function createDogsProfileCard() {
         deleteButton.textContent = "Slett";
         deleteButton.addEventListener("click", () => {
             dogCard.remove();
+            dogs.splice(index, 1); //fjerner hunden fra arrayet
+            replaceCard();
         });
 
         dogCard.appendChild(deleteButton);
@@ -105,5 +120,59 @@ function createDogsProfileCard() {
         dogCard.appendChild(chatButton);
 
         cardSection.appendChild(dogCard);
+        console.log(dogs.length);
     });
 }
+
+const newDogBtn = document.querySelector("#new-dog-btn");
+newDogBtn.addEventListener("click", () => {
+    showDogs();
+});
+
+function showDogs() {
+    const showingDogs = 10; // antall hunder som vises
+    const shownDogs = dogs.slice(0, showingDogs); //legger hundene som er vist inn i shownDogs (tar ut og legges i nytt array)
+
+    if (dogs.length <= showingDogs) {
+        getDogs();
+    }
+    console.log("nye hunder", shownDogs);
+}
+
+//function for å erstatte det slettede elemente
+function replaceCard() {
+    const newDogIndex = Math.floor(
+        Math.random() * (dogsImages.length, usersApi.length)
+    );
+    const newDog = {
+        image: dogsImages[newDogIndex],
+        name: usersApi[newDogIndex].name.first,
+        location: usersApi[newDogIndex].location.city,
+    };
+    dogs.push(newDog);
+    createDogsProfileCard();
+}
+
+const greeting = [
+    "Voff voff",
+    "Grrr!",
+    "Mjau?",
+    "Voff!",
+    "Voff voff voff",
+    "WRAFF",
+];
+
+function getRandomGreeting() {
+    const randomGreeting = Math.floor(Math.random() * greeting.length);
+    return greeting[randomGreeting];
+}
+
+function showGreeting() {
+    const showRandomGreeting = getRandomGreeting();
+    alert(showRandomGreeting);
+}
+
+const dogCards = document.querySelectorAll(".card-section");
+dogCards.forEach((dogCard) => {
+    dogCard.addEventListener("click", showGreeting);
+});
