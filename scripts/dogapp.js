@@ -1,15 +1,49 @@
 let dogsImages = []; // Henter inn bilder fra dog.ceo
 let usersApi = []; // Henter inn navn og bosted fra randomuser.me
 let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
-let cardSection = document.querySelector(".card-section");
-
 const breeds = [
-    { Labrador: "labrador" },
-    { Bulldog: "bulldog" },
-    { Pitbull: "pitbull" },
-    { GoldenRetriver: "retriever-golden" },
-    { Husky: "husky" },
-]; // for filtrering av hunder, valgte bare 5 tilfeldigee
+    {
+        name: "Ditt valg",
+    },
+    {
+        name: "Labrador",
+        race: "labrador",
+    },
+    {
+        name: "Bulldog",
+        race: "bulldog",
+    },
+    {
+        name: "Pitbull",
+        race: "pitbull",
+    },
+    {
+        name: "Golden Retriver",
+        race: "retriever-golden",
+    },
+    {
+        name: "Husky",
+        race: "husky",
+    },
+];
+let cardSection = document.querySelector(".card-section");
+const sortOnRace = document.querySelector("#sortOnRace"); // Til søkefunksjonen i dropdown-menyen
+const raceOptions = document.querySelector("#raceOptions");
+
+// Lager dropdown-menyen
+const options = Array.from(new Set(breeds.map((breed) => breed.name))); // for å få en liste med alle race-valgene)
+sortOnRace.innerHTML = options
+    .map((race) => `<option>${race}</option>`)
+    .join("");
+sortOnRace.addEventListener("change", () => {
+    dropdownResult(sortOnRace.value);
+});
+
+function dropdownResult(value) {
+    console.log(value);
+}
+
+function showSelectedBreed() {}
 
 getDogs();
 async function getDogs() {
