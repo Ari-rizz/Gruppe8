@@ -153,7 +153,7 @@ function replaceCard() {
     dogs.push(newDog);
     createDogsProfileCard();
 }
-
+// greeting array
 const greeting = [
     "Voff voff",
     "Grrr!",
@@ -162,17 +162,17 @@ const greeting = [
     "Voff voff voff",
     "WRAFF",
 ];
-
+// henter en random greeting
 function getRandomGreeting() {
     const randomGreeting = Math.floor(Math.random() * greeting.length);
     return greeting[randomGreeting];
 }
-
+//randomGreeting vises i en alert
 function showGreeting() {
     const showRandomGreeting = getRandomGreeting();
     alert(showRandomGreeting);
 }
-
+//Alerten kommer opp hver gang et kort er clicket på
 const dogCards = document.querySelectorAll(".card-section");
 dogCards.forEach((dogCard) => {
     dogCard.addEventListener("click", showGreeting);
