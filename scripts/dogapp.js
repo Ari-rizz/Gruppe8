@@ -182,3 +182,4 @@ function showGreeting(dogCard) {
   greetingsBubble.style.borderRadius = "45%";
   dogCard.appendChild(greetingsBubble);
 }
+//merget
