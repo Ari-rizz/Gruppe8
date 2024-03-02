@@ -4,6 +4,7 @@ let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
 const breeds = [
     {
         name: "Ditt valg",
+        race: "dittvalg",
     },
     {
         name: "Labrador",
@@ -28,22 +29,37 @@ const breeds = [
 ];
 let cardSection = document.querySelector(".card-section");
 const sortOnRace = document.querySelector("#sortOnRace"); // Til søkefunksjonen i dropdown-menyen
-const raceOptions = document.querySelector("#raceOptions");
+const raceOptions = document.querySelector("#raceOptions"); // Alternativene i dropdown-menyen
 
 // Lager dropdown-menyen
-const options = Array.from(new Set(breeds.map((breed) => breed.name))); // for å få en liste med alle race-valgene)
-sortOnRace.innerHTML = options
-    .map((race) => `<option>${race}</option>`)
-    .join("");
+breeds.forEach((breed) => {
+    const option = document.createElement("option");
+    option.value = breed.race;
+    option.textContent = breed.name;
+    sortOnRace.appendChild(option);
+});
+// const options = Array.from(new Set(breeds.map((breed) => breed.name))); // for å få en liste med alle race-valgene)
+// sortOnRace.innerHTML = options
+//     .map((race) => `<option>${race}</option>`)
+//     .join("");
 sortOnRace.addEventListener("change", () => {
-    dropdownResult(sortOnRace.value);
+    if (sortOnRace.value === "dittvalg") {
+        makeDogsArray();
+        console.log("do nothing");
+    } else {
+        showSelectedBreed(sortOnRace.value);
+    }
+    // dropdownResult(option.value);
 });
 
 function dropdownResult(value) {
     console.log(value);
 }
 
-function showSelectedBreed() {}
+function showSelectedBreed(breed) {
+    console.log(sortOnRace.value);
+    cardSection.innerHTML = "";
+}
 
 getDogs();
 async function getDogs() {
