@@ -31,7 +31,7 @@ let cardSection = document.querySelector(".card-section");
 const sortOnRace = document.querySelector("#sortOnRace"); // Til søkefunksjonen i dropdown-menyen
 const raceOptions = document.querySelector("#raceOptions"); // Alternativene i dropdown-menyen
 
-// Lager dropdown-menyen
+// Lager dropdown-menyen basert på breeds
 breeds.forEach((breed) => {
     const option = document.createElement("option");
     option.value = breed.race;
@@ -63,7 +63,7 @@ async function getDogs() {
         );
         const data = await response.json();
         dogsImages = data.message;
-        setTimeout(getRandomUsers, 500);
+        setTimeout(getRandomUsers, 200);
     } catch (error) {
         console.log("Kunne ikke laste inn hundedata: " + error);
     }
@@ -76,7 +76,7 @@ async function getRandomUsers() {
         );
         const data = await response.json();
         usersApi = data.results;
-        setTimeout(makeDogsArray, 500);
+        setTimeout(makeDogsArray, 200);
     } catch (error) {
         console.log("Kunne ikke laste inn brukerdata: " + error);
     }
