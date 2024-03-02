@@ -168,7 +168,7 @@ function replaceCard() {
     dogs.push(newDog);
     createDogsProfileCard();
 }
-
+// greeting array
 const greeting = [
     "Voff voff",
     "Grrr!",
@@ -177,7 +177,7 @@ const greeting = [
     "Voff voff voff",
     "WRAFF",
 ];
-
+// henter en random greeting
 function getRandomGreeting() {
     const randomGreeting = Math.floor(Math.random() * greeting.length);
     return greeting[randomGreeting];
