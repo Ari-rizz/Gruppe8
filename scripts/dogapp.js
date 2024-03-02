@@ -34,7 +34,7 @@ const raceOptions = document.querySelector("#raceOptions"); // Alternativene i d
 // Lager dropdown-menyen
 breeds.forEach((breed) => {
     const option = document.createElement("option");
-    option.value = breed.race;
+    option.value = breed.breed;
     option.textContent = breed.name;
     sortOnRace.appendChild(option);
 });
@@ -92,7 +92,6 @@ function makeDogsArray() {
             image: dogsImages[i],
             name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
             location: usersApi[i].location.city,
-            // breed:fuksjon for breedfilter
         };
         dogs.push(dog);
     }
@@ -130,10 +129,12 @@ function createDogsProfileCard() {
         dogCard.appendChild(chatButton);
 
         cardSection.appendChild(dogCard);
-        console.log(dogs.length);
     });
 }
-
+const dogCards = document.querySelectorAll(".card-section");
+dogCards.forEach((dogCard) => {
+    dogCard.addEventListener("click", showGreeting);
+});
 const newDogBtn = document.querySelector("#new-dog-btn");
 newDogBtn.addEventListener("click", () => {
     showDogs();
@@ -181,8 +182,3 @@ function showGreeting() {
     const showRandomGreeting = getRandomGreeting();
     alert(showRandomGreeting);
 }
-
-const dogCards = document.querySelectorAll(".card-section");
-dogCards.forEach((dogCard) => {
-    dogCard.addEventListener("click", showGreeting);
-});
