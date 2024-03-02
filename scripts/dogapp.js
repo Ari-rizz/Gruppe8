@@ -1,6 +1,6 @@
-let dogsImages = []; // Henter inn bilder fra dog.ceo
-let usersApi = []; // Henter inn navn og bosted fra randomuser.me
-let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
+let dogsImages = []; //  bilder fra fecth dog.ceo
+let usersApi = []; // navn og bosted hentet fra randomuser.me
+let dogs = []; // array som skal inneholde objekter til kortene.
 const breeds = [
     {
         name: "Ditt valg",
@@ -38,10 +38,7 @@ breeds.forEach((breed) => {
     option.textContent = breed.name;
     sortOnRace.appendChild(option);
 });
-// const options = Array.from(new Set(breeds.map((breed) => breed.name))); // for å få en liste med alle race-valgene)
-// sortOnRace.innerHTML = options
-//     .map((race) => `<option>${race}</option>`)
-//     .join("");
+
 sortOnRace.addEventListener("change", () => {
     if (sortOnRace.value === "dittvalg") {
         makeDogsArray();
@@ -49,13 +46,7 @@ sortOnRace.addEventListener("change", () => {
     } else {
         showSelectedBreed(sortOnRace.value);
     }
-    // dropdownResult(option.value);
 });
-
-function dropdownResult(value) {
-    console.log(value);
-}
-
 function showSelectedBreed(breed) {
     console.log(sortOnRace.value);
     cardSection.innerHTML = "";
