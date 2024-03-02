@@ -93,7 +93,7 @@ function createDogsProfileCard() {
     const dogCard = document.createElement("article");
     dogCard.classList.add("card");
     dogCard.innerHTML = `<img src= "${dogs[index].image}" alt="${dogs[index].name}" style="width: 100%">`;
-
+    
     const dogInfo = document.createElement("div");
     dogInfo.classList.add("container");
     dogInfo.innerHTML += `<h3>${dogs[index].name}</h3>`;
@@ -160,7 +160,7 @@ const greeting = [
   "Mjau?",
   "Voff!",
   "Voff voff voff",
-  "WRAFF",
+  "WRAFF!!!",
 ];
 // henter en random greeting
 function getRandomGreeting() {
@@ -173,5 +173,12 @@ function showGreeting(dogCard) {
   greetingsBubble.classList.add("greetings-bubble");
   greetingsBubble.textContent = getRandomGreeting();
   greetingsBubble.style.position = "absolute";
+  greetingsBubble.style.background = "white"
+  greetingsBubble.style.color = "black";
+  greetingsBubble.style.height = "40px";
+  greetingsBubble.style.width = "100px";
+  greetingsBubble.style.padding = "12px 10px 0px 10px";
+  greetingsBubble.style.textAlign = "center";
+  greetingsBubble.style.borderRadius = "45%";
   dogCard.appendChild(greetingsBubble);
 }
