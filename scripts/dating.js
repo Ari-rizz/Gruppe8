@@ -15,3 +15,14 @@ async function getRandomUsers() {
 function showUsers() {
     console.log(people);
 }
+const profileCard = document.querySelector(`profile`)
+
+function swipeLeftAndRigth(event){
+
+if(evnet.key === `ArrowLeft`){
+    newProfile();
+}
+else if(event.key === `ArrowRigth`){
+    newProfile();
+}
+};

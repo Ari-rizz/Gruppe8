@@ -125,9 +125,12 @@ function createDogsProfileCard() {
             //Chat funskjon her
         });
         dogCard.appendChild(chatButton);
+        //kaller på showGreeting når kortet blir trykket på
+        dogCard.addEventListener("click", () => {
+            showGreeting(dogCard);
+        });
 
         cardSection.appendChild(dogCard);
-        console.log(dogs.length);
     });
 }
 
@@ -166,20 +169,26 @@ const greeting = [
     "Mjau?",
     "Voff!",
     "Voff voff voff",
-    "WRAFF",
+    "WRAFF!!!",
 ];
 // henter en random greeting
 function getRandomGreeting() {
     const randomGreeting = Math.floor(Math.random() * greeting.length);
     return greeting[randomGreeting];
 }
-
-function showGreeting() {
-    const showRandomGreeting = getRandomGreeting();
-    alert(showRandomGreeting);
+//randomGreeting vises i som en div
+function showGreeting(dogCard) {
+    const greetingsBubble = document.createElement("div");
+    greetingsBubble.classList.add("greetings-bubble");
+    greetingsBubble.textContent = getRandomGreeting();
+    greetingsBubble.style.position = "absolute";
+    greetingsBubble.style.background = "white";
+    greetingsBubble.style.color = "black";
+    greetingsBubble.style.height = "40px";
+    greetingsBubble.style.width = "100px";
+    greetingsBubble.style.padding = "12px 10px 0px 10px";
+    greetingsBubble.style.textAlign = "center";
+    greetingsBubble.style.borderRadius = "45%";
+    dogCard.appendChild(greetingsBubble);
 }
-
-const dogCards = document.querySelectorAll(".card-section");
-dogCards.forEach((dogCard) => {
-    dogCard.addEventListener("click", showGreeting);
-});
+//merget
