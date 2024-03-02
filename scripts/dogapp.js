@@ -1,30 +1,30 @@
 let dogsImages = []; //  bilder fra fecth dog.ceo
 let usersApi = []; // navn og bosted hentet fra randomuser.me
-let dogs = []; // array som skal inneholde objekter til kortene.
+let dogs = []; // array som skal inneholde ferdige objekter
 const breeds = [
     {
         name: "Ditt valg",
-        race: "dittvalg",
+        breed: "dittvalg",
     },
     {
         name: "Labrador",
-        race: "labrador",
+        breed: "labrador",
     },
     {
         name: "Bulldog",
-        race: "bulldog",
+        breed: "bulldog",
     },
     {
         name: "Pitbull",
-        race: "pitbull",
+        breed: "pitbull",
     },
     {
         name: "Golden Retriver",
-        race: "retriever-golden",
+        breed: "retriever-golden",
     },
     {
         name: "Husky",
-        race: "husky",
+        breed: "husky",
     },
 ];
 let cardSection = document.querySelector(".card-section");
@@ -38,7 +38,7 @@ breeds.forEach((breed) => {
     option.textContent = breed.name;
     sortOnRace.appendChild(option);
 });
-
+// Ser etter endringer i pull-down-menyen
 sortOnRace.addEventListener("change", () => {
     if (sortOnRace.value === "dittvalg") {
         makeDogsArray();
@@ -47,12 +47,15 @@ sortOnRace.addEventListener("change", () => {
         showSelectedBreed(sortOnRace.value);
     }
 });
+// Funksjon som skal vise hundene som er valgt i pull-down-menyen
 function showSelectedBreed(breed) {
     console.log(sortOnRace.value);
     cardSection.innerHTML = "";
+    console.log(dogs);
 }
 
 getDogs();
+// Fetch som henter 50 bilder av hundene
 async function getDogs() {
     try {
         const response = await fetch(
@@ -65,7 +68,7 @@ async function getDogs() {
         console.log("Kunne ikke laste inn hundedata: " + error);
     }
 }
-
+// Fetch som henter 50 navn og bosteder
 async function getRandomUsers() {
     try {
         const response = await fetch(
@@ -78,7 +81,7 @@ async function getRandomUsers() {
         console.log("Kunne ikke laste inn brukerdata: " + error);
     }
 }
-
+// Funksjon som setter sammen objektene med bilde, navn og bosted
 function makeDogsArray() {
     //Lager en const som skjekker om det er nok hunder //fikk hjelp av chatGBT med math.min, velger den med minst lengde
     const isThereTenDogsLeft = Math.min(dogsImages.length, usersApi.length, 10);
