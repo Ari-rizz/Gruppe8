@@ -2,29 +2,29 @@ let dogsImages = []; // Henter inn bilder fra dog.ceo
 let usersApi = []; // Henter inn navn og bosted fra randomuser.me
 let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
 const breeds = [
-    {
-        name: "Ditt valg",
-    },
-    {
-        name: "Labrador",
-        race: "labrador",
-    },
-    {
-        name: "Bulldog",
-        race: "bulldog",
-    },
-    {
-        name: "Pitbull",
-        race: "pitbull",
-    },
-    {
-        name: "Golden Retriver",
-        race: "retriever-golden",
-    },
-    {
-        name: "Husky",
-        race: "husky",
-    },
+  {
+    name: "Ditt valg",
+  },
+  {
+    name: "Labrador",
+    race: "labrador",
+  },
+  {
+    name: "Bulldog",
+    race: "bulldog",
+  },
+  {
+    name: "Pitbull",
+    race: "pitbull",
+  },
+  {
+    name: "Golden Retriver",
+    race: "retriever-golden",
+  },
+  {
+    name: "Husky",
+    race: "husky",
+  },
 ];
 let cardSection = document.querySelector(".card-section");
 const sortOnRace = document.querySelector("#sortOnRace"); // Til søkefunksjonen i dropdown-menyen
@@ -33,74 +33,72 @@ const raceOptions = document.querySelector("#raceOptions");
 // Lager dropdown-menyen
 const options = Array.from(new Set(breeds.map((breed) => breed.name))); // for å få en liste med alle race-valgene)
 sortOnRace.innerHTML = options
-    .map((race) => `<option>${race}</option>`)
-    .join("");
+  .map((race) => `<option>${race}</option>`)
+  .join("");
 sortOnRace.addEventListener("change", () => {
-    dropdownResult(sortOnRace.value);
+  dropdownResult(sortOnRace.value);
 });
 
 function dropdownResult(value) {
-    console.log(value);
+  console.log(value);
 }
 
 function showSelectedBreed() {}
 
 getDogs();
 async function getDogs() {
-    try {
-        const response = await fetch(
-            "https://dog.ceo/api/breeds/image/random/50"
-        );
-        const data = await response.json();
-        dogsImages = data.message;
-        setTimeout(getRandomUsers, 500);
-    } catch (error) {
-        console.log("Kunne ikke laste inn hundedata: " + error);
-    }
+  try {
+    const response = await fetch("https://dog.ceo/api/breeds/image/random/50");
+    const data = await response.json();
+    dogsImages = data.message;
+    setTimeout(getRandomUsers, 500);
+  } catch (error) {
+    console.log("Kunne ikke laste inn hundedata: " + error);
+  }
 }
 
 async function getRandomUsers() {
-    try {
-        const response = await fetch(
-            "https://randomuser.me/api/?results=50&nat=no&inc=name,location"
-        );
-        const data = await response.json();
-        usersApi = data.results;
-        setTimeout(makeDogsArray, 500);
-    } catch (error) {
-        console.log("Kunne ikke laste inn brukerdata: " + error);
-    }
+  try {
+    const response = await fetch(
+      "https://randomuser.me/api/?results=50&nat=no&inc=name,location"
+    );
+    const data = await response.json();
+    usersApi = data.results;
+    setTimeout(makeDogsArray, 500);
+  } catch (error) {
+    console.log("Kunne ikke laste inn brukerdata: " + error);
+  }
 }
 
 function makeDogsArray() {
-    //Lager en const som skjekker om det er nok hunder //fikk hjelp av chatGBT med math.min, velger den med minst lengde
-    const isThereTenDogsLeft = Math.min(dogsImages.length, usersApi.length, 10);
-    // Lager et array som inneholder objekter med dogs. Henter bilde fra dogsImages og navn og bosted fra usersApi
-    dogs = []; //tømmer arrayet
-    for (let i = 0; i < isThereTenDogsLeft; i++) {
-        let dog = {
-            image: dogsImages[i],
-            name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
-            location: usersApi[i].location.city,
-            // breed:fuksjon for breedfilter
-        };
-        dogs.push(dog);
-    }
-    createDogsProfileCard();
+  //Lager en const som skjekker om det er nok hunder //fikk hjelp av chatGBT med math.min, velger den med minst lengde
+  const isThereTenDogsLeft = Math.min(dogsImages.length, usersApi.length, 10);
+  // Lager et array som inneholder objekter med dogs. Henter bilde fra dogsImages og navn og bosted fra usersApi
+  dogs = []; //tømmer arrayet
+  for (let i = 0; i < isThereTenDogsLeft; i++) {
+    let dog = {
+      image: dogsImages[i],
+      name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
+      location: usersApi[i].location.city,
+      // breed:fuksjon for breedfilter
+    };
+    dogs.push(dog);
+  }
+  createDogsProfileCard();
 }
 
 function createDogsProfileCard() {
-    cardSection.innerHTML = "";
-    dogs.forEach((dog, index) => {
-        const dogCard = document.createElement("article");
-        dogCard.classList.add("card");
-        dogCard.innerHTML = `<img src= "${dogs[index].image}" alt="${dogs[index].name}" style="width: 100%">`;
+  cardSection.innerHTML = "";
+  dogs.forEach((dog, index) => {
+    const dogCard = document.createElement("article");
+    dogCard.classList.add("card");
+    dogCard.innerHTML = `<img src= "${dogs[index].image}" alt="${dogs[index].name}" style="width: 100%">`;
 
-        const dogInfo = document.createElement("div");
-        dogInfo.classList.add("container");
-        dogInfo.innerHTML += `<h3>${dogs[index].name}</h3>`;
-        dogInfo.innerHTML += `<p>${dogs[index].location}</p>`;
-        dogCard.appendChild(dogInfo);
+    const dogInfo = document.createElement("div");
+    dogInfo.classList.add("container");
+    dogInfo.innerHTML += `<h3>${dogs[index].name}</h3>`;
+    dogInfo.innerHTML += `<p>${dogs[index].location}</p>`;
+    dogCard.appendChild(dogInfo);
 
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Slett";
@@ -175,7 +173,7 @@ function showGreeting(dogCard) {
   greetingsBubble.classList.add("greetings-bubble");
   greetingsBubble.textContent = getRandomGreeting();
   greetingsBubble.style.position = "absolute";
-  greetingsBubble.style.background = "white"
+  greetingsBubble.style.background = "white";
   greetingsBubble.style.color = "black";
   greetingsBubble.style.height = "40px";
   greetingsBubble.style.width = "100px";
