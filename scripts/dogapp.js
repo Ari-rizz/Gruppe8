@@ -1,7 +1,7 @@
 let dogsImages = []; // Henter inn bilder fra dog.ceo
 let usersApi = []; // Henter inn navn og bosted fra randomuser.me
-let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
-let displayDogs = []; //oppretter array som hundene som blir vist blir plasert inn i.
+let dogs = []; // array som skal inneholde objekter til kortene.
+let displayDogs = []; //array som hundene som blir vist blir plasert inn i.
 const breeds = [
     {
         name: "Ditt valg",
@@ -27,11 +27,11 @@ const breeds = [
         name: "Husky",
         breed: "husky",
     },
-];
+]; // array med objekter til de predefinerte hunderasene.
 let cardSection = document.querySelector(".card-section");
 const sortOnRace = document.querySelector("#sortOnRace"); // Til søkefunksjonen i dropdown-menyen
 const raceOptions = document.querySelector("#raceOptions"); // Alternativene i dropdown-menyen
-
+let apiCounter = 0; // Teller antall ganger vi har hentat data fra API
 // Lager dropdown-menyen basert på breeds
 breeds.forEach((breed) => {
     const option = document.createElement("option");
@@ -90,7 +90,7 @@ async function getDogs() {
         );
         const data = await response.json();
         dogsImages = data.message;
-        setTimeout(getRandomUsers, 200);
+        setTimeout(getRandomUsers, 70);
     } catch (error) {
         console.log("Kunne ikke laste inn hundedata: " + error);
     }
@@ -103,7 +103,8 @@ async function getRandomUsers() {
         );
         const data = await response.json();
         usersApi = data.results;
-        setTimeout(makeDogsArray, 200);
+        apiCounter++;
+        setTimeout(makeDogsArray, 70);
     } catch (error) {
         console.log("Kunne ikke laste inn brukerdata: " + error);
     }
@@ -115,11 +116,19 @@ function makeDogsArray() {
             image: dogsImages[i],
             name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
             location: usersApi[i].location.city,
-            // breed:fuksjon for breedfilter
         };
-        dogs.push(dog);
+        // sjekker om bildet finnes fra før i dogs
+        if (dogs.includes(dog.image)) {
+            console.log("Duplikat");
+        } else {
+            dogs.push(dog);
+        }
     }
-    createDogsProfileCard();
+    if (apiCounter == 4) {
+        createDogsProfileCard();
+    } else {
+        getDogs();
+    }
 }
 
 function createDogsProfileCard() {
@@ -143,7 +152,6 @@ function createDogsProfileCard() {
             dogs.splice(index, 1); //fjerner hunden fra arrayet
             replaceCard();
         });
-
         dogCard.appendChild(deleteButton);
 
         const chatButton = document.createElement("button");
