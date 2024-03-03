@@ -35,7 +35,7 @@ const raceOptions = document.querySelector("#raceOptions"); // Alternativene i d
 // Lager dropdown-menyen basert på breeds
 breeds.forEach((breed) => {
     const option = document.createElement("option");
-    option.value = breed.race;
+    option.value = breed.breed;
     option.textContent = breed.name;
     sortOnRace.appendChild(option);
 });
@@ -50,7 +50,7 @@ sortOnRace.addEventListener("change", () => {
 });
 // Funksjon som skal vise hundene som er valgt i pull-down-menyen
 function showSelectedBreed(breed) {
-    console.log(sortOnRace.value);
+    console.log(breed);
     cardSection.innerHTML = "";
     // Henter hundene fra dogs der image inneholder breed som valgt i pull-down-menyen
     filteredDogs = dogs.filter((dog) => {
