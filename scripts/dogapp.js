@@ -35,7 +35,7 @@ const raceOptions = document.querySelector("#raceOptions"); // Alternativene i d
 // Lager dropdown-menyen basert på breeds
 breeds.forEach((breed) => {
     const option = document.createElement("option");
-    option.value = breed.breed;
+    option.value = breed.race;
     option.textContent = breed.name;
     sortOnRace.appendChild(option);
 });
@@ -115,6 +115,7 @@ function makeDogsArray() {
             image: dogsImages[i],
             name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
             location: usersApi[i].location.city,
+            // breed:fuksjon for breedfilter
         };
         dogs.push(dog);
     }
@@ -159,10 +160,7 @@ function createDogsProfileCard() {
         cardSection.appendChild(dogCard);
     });
 }
-const dogCards = document.querySelectorAll(".card-section");
-dogCards.forEach((dogCard) => {
-    dogCard.addEventListener("click", showGreeting);
-});
+
 const newDogBtn = document.querySelector("#new-dog-btn");
 newDogBtn.addEventListener("click", () => {
     showDogs();
@@ -204,11 +202,6 @@ const greeting = [
 function getRandomGreeting() {
     const randomGreeting = Math.floor(Math.random() * greeting.length);
     return greeting[randomGreeting];
-}
-
-function showGreeting() {
-    const showRandomGreeting = getRandomGreeting();
-    alert(showRandomGreeting);
 }
 //randomGreeting vises i som en div
 function showGreeting(dogCard) {
