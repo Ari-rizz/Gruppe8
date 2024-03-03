@@ -1,6 +1,7 @@
 let dogsImages = []; // Henter inn bilder fra dog.ceo
 let usersApi = []; // Henter inn navn og bosted fra randomuser.me
 let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
+let displayDogs = []; //Array for å vise hundene 10 og 10
 const breeds = [
   {
     name: "Ditt valg",
@@ -89,7 +90,8 @@ function makeDogsArray() {
 
 function createDogsProfileCard() {
   cardSection.innerHTML = "";
-  dogs.forEach((dog, index) => {
+  displayDogs = dogs.slice(0,10);
+  displayDogs.forEach((dog, index) => {
     const dogCard = document.createElement("article");
     dogCard.classList.add("card");
     dogCard.innerHTML = `<img src= "${dogs[index].image}" alt="${dogs[index].name}" style="width: 100%">`;
@@ -132,12 +134,12 @@ newDogBtn.addEventListener("click", () => {
 
 function showDogs() {
   const showingDogs = 10; // antall hunder som vises
-  const shownDogs = dogs.slice(0, showingDogs); //legger hundene som er vist inn i shownDogs (tar ut og legges i nytt array)
+  const displayDogs = dogs.slice(0, showingDogs); //legger hundene som er vist inn i shownDogs (tar ut og legges i nytt array)
 
   if (dogs.length <= showingDogs) {
     getDogs();
   }
-  console.log("nye hunder", shownDogs);
+  console.log("nye hunder", displayDogs);
 }
 
 //function for å erstatte det slettede elemente
