@@ -169,6 +169,15 @@ function getRandomGreeting() {
 }
 //randomGreeting vises i som en div
 function showGreeting(dogCard) {
+  const removeAllGreetings = document.querySelectorAll(".greetings-bubble");
+  removeAllGreetings.forEach(greeting =>{greeting.remove();
+  });
+
+  const ifGreeting = dogCard.querySelector(".grettings-bubble")
+  if (ifGreeting){
+    ifGreeting.remove();
+  }
+  else{
   const greetingsBubble = document.createElement("div");
   greetingsBubble.classList.add("greetings-bubble");
   greetingsBubble.textContent = getRandomGreeting();
@@ -181,5 +190,6 @@ function showGreeting(dogCard) {
   greetingsBubble.style.textAlign = "center";
   greetingsBubble.style.borderRadius = "45%";
   dogCard.appendChild(greetingsBubble);
+}
 }
 //merget
