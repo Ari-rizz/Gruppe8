@@ -1,6 +1,7 @@
-let dogsImages = []; //  bilder fra fecth dog.ceo
-let usersApi = []; // navn og bosted hentet fra randomuser.me
-let dogs = []; // array som skal inneholde ferdige objekter
+let dogsImages = []; // Henter inn bilder fra dog.ceo
+let usersApi = []; // Henter inn navn og bosted fra randomuser.me
+let dogs = []; // Oppretter array som skal inneholde objekter til kortene.
+let displayDogs = []; //oppretter array som hundene som blir vist blir plasert inn i.
 const breeds = [
     {
         name: "Ditt valg",
@@ -100,7 +101,8 @@ function makeDogsArray() {
 
 function createDogsProfileCard() {
     cardSection.innerHTML = "";
-    dogs.forEach((dog, index) => {
+    displayDogs = dogs.slice(0, 10); //blir lagt inn i nytt array
+    displayDogs.forEach((dog, index) => {
         const dogCard = document.createElement("article");
         dogCard.classList.add("card");
         dogCard.innerHTML = `<img src= "${dogs[index].image}" alt="${dogs[index].name}" style="width: 100%">`;
@@ -146,12 +148,12 @@ newDogBtn.addEventListener("click", () => {
 
 function showDogs() {
     const showingDogs = 10; // antall hunder som vises
-    const shownDogs = dogs.slice(0, showingDogs); //legger hundene som er vist inn i shownDogs (tar ut og legges i nytt array)
+    const displayDogs = dogs.slice(0, showingDogs); //legger hundene som er vist inn i displayDogs (tar ut og legges i nytt array)
 
     if (dogs.length <= showingDogs) {
         getDogs();
     }
-    console.log("nye hunder", shownDogs);
+    console.log("nye hunder", displayDogs);
 }
 
 //function for å erstatte det slettede elemente
@@ -188,17 +190,28 @@ function showGreeting() {
 }
 //randomGreeting vises i som en div
 function showGreeting(dogCard) {
-    const greetingsBubble = document.createElement("div");
-    greetingsBubble.classList.add("greetings-bubble");
-    greetingsBubble.textContent = getRandomGreeting();
-    greetingsBubble.style.position = "absolute";
-    greetingsBubble.style.background = "white";
-    greetingsBubble.style.color = "black";
-    greetingsBubble.style.height = "40px";
-    greetingsBubble.style.width = "100px";
-    greetingsBubble.style.padding = "12px 10px 0px 10px";
-    greetingsBubble.style.textAlign = "center";
-    greetingsBubble.style.borderRadius = "45%";
-    dogCard.appendChild(greetingsBubble);
+    const removeAllGreetings = document.querySelectorAll(".greetings-bubble");
+    removeAllGreetings.forEach((greeting) => {
+        greeting.remove();
+    }); // fjerner alle greetings som er blitt kallt på
+
+    const ifGreeting = dogCard.querySelector(".grettings-bubble");
+    if (ifGreeting) {
+        ifGreeting.remove();
+    } // hvis det er en greeting tilstedet blir den fjernet
+    else {
+        const greetingsBubble = document.createElement("div");
+        greetingsBubble.classList.add("greetings-bubble");
+        greetingsBubble.textContent = getRandomGreeting();
+        greetingsBubble.style.position = "absolute";
+        greetingsBubble.style.background = "white";
+        greetingsBubble.style.color = "black";
+        greetingsBubble.style.height = "40px";
+        greetingsBubble.style.width = "100px";
+        greetingsBubble.style.padding = "12px 10px 0px 10px";
+        greetingsBubble.style.textAlign = "center";
+        greetingsBubble.style.borderRadius = "45%";
+        dogCard.appendChild(greetingsBubble);
+    } // hvis ingen greeting så blir det opprettet en ny
 }
 //merget
