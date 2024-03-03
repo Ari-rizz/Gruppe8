@@ -52,6 +52,32 @@ sortOnRace.addEventListener("change", () => {
 function showSelectedBreed(breed) {
     console.log(sortOnRace.value);
     cardSection.innerHTML = "";
+    // Henter hundene fra dogs der image inneholder breed som valgt i pull-down-menyen
+    filteredDogs = dogs.filter((dog) => {
+        return dog.image.includes(breed);
+    });
+    console.log(filteredDogs);
+    filteredDogs.forEach((dog, index) => {
+        const dogCard = document.createElement("article");
+        dogCard.classList.add("card");
+        dogCard.innerHTML = `<img src= "${filteredDogs[index].image}" alt="${filteredDogs[index].name}" style="width: 100%">`;
+        const dogInfo = document.createElement("div");
+        dogInfo.classList.add("container");
+        dogInfo.innerHTML += `<h3>${filteredDogs[index].name}</h3>`;
+        dogInfo.innerHTML += `<p>${filteredDogs[index].location}</p>`;
+        dogCard.appendChild(dogInfo);
+        const chatButton = document.createElement("button");
+        chatButton.textContent = "Chat";
+        chatButton.addEventListener("click", () => {
+            //Chat funksjon her
+        });
+        dogCard.appendChild(chatButton);
+        //kaller på showGreeting når kortet blir trykket på
+        dogCard.addEventListener("click", () => {
+            showGreeting(dogCard);
+        });
+        cardSection.appendChild(dogCard);
+    });
     console.log(dogs);
 }
 
@@ -84,11 +110,7 @@ async function getRandomUsers() {
 }
 // Funksjon som setter sammen objektene med bilde, navn og bosted
 function makeDogsArray() {
-    //Lager en const som skjekker om det er nok hunder //fikk hjelp av chatGBT med math.min, velger den med minst lengde
-    const isThereTenDogsLeft = Math.min(dogsImages.length, usersApi.length, 10);
-    // Lager et array som inneholder objekter med dogs. Henter bilde fra dogsImages og navn og bosted fra usersApi
-    dogs = []; //tømmer arrayet
-    for (let i = 0; i < isThereTenDogsLeft; i++) {
+    for (let i = 0; i < usersApi.length; i++) {
         let dog = {
             image: dogsImages[i],
             name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
