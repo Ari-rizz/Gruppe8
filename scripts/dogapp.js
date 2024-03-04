@@ -31,7 +31,7 @@ const breeds = [
 let cardSection = document.querySelector(".card-section");
 const sortOnRace = document.querySelector("#sortOnRace"); // Til søkefunksjonen i dropdown-menyen
 const raceOptions = document.querySelector("#raceOptions"); // Alternativene i dropdown-menyen
-let apiCounter = 0; // Teller antall ganger vi har hentat data fra API
+
 // Lager dropdown-menyen basert på breeds
 breeds.forEach((breed) => {
     const option = document.createElement("option");
@@ -78,32 +78,62 @@ function showSelectedBreed(breed) {
         });
         cardSection.appendChild(dogCard);
     });
-    console.log(dogs);
 }
 
-getDogs();
+fetchBreedDogs();
+
+async function fetchBreedDogs() {
+    breeds.forEach(async (breed) => {
+        if (breed.breed === "dittvalg") {
+            console.log("Hopp over");
+        } else {
+            if (breed.breed === "retriever-golden") {
+                breed.breed = "retriever/golden";
+            }
+
+            try {
+                const response = await fetch(
+                    `https://dog.ceo/api/breed/${breed.breed}/images/random/10`
+                );
+                const data = await response.json();
+                setTimeout(buildDogsImages(data.message), 100);
+                console.log("hentet " + breed.breed);
+            } catch (error) {
+                console.log("Kunne ikke laste inn hundedata: " + error);
+            }
+        }
+    });
+    setTimeout(fetchRandomUsers, 70);
+}
 // Fetch som henter 50 bilder av hundene
-async function getDogs() {
+async function fetchDogs() {
     try {
         const response = await fetch(
-            "https://dog.ceo/api/breeds/image/random/50"
+            "https://dog.ceo/api/breeds/image/random/"
         );
         const data = await response.json();
-        dogsImages = data.message;
-        setTimeout(getRandomUsers, 70);
+        buildDogsImages(data.message);
     } catch (error) {
         console.log("Kunne ikke laste inn hundedata: " + error);
     }
+    setTimeout(fetchRandomUsers, 70);
+}
+function buildDogsImages(dogs) {
+    console.log(dogs);
+    dogsImages = dogsImages.concat(dogs); // Concat-metoden legger sammen arrays
+    console.log(dogsImages.length);
+    return;
 }
 // Fetch som henter 50 navn og bosteder
-async function getRandomUsers() {
+async function fetchRandomUsers() {
+    console.log("fetchRandomUsers, lengden på dogsImages");
+    console.log(dogsImages.length);
     try {
         const response = await fetch(
-            "https://randomuser.me/api/?results=50&nat=no&inc=name,location"
+            `https://randomuser.me/api/?results=${dogsImages.length}&nat=no&inc=name,location`
         );
         const data = await response.json();
         usersApi = data.results;
-        apiCounter++;
         setTimeout(makeDogsArray, 70);
     } catch (error) {
         console.log("Kunne ikke laste inn brukerdata: " + error);
@@ -111,7 +141,10 @@ async function getRandomUsers() {
 }
 // Funksjon som setter sammen objektene med bilde, navn og bosted
 function makeDogsArray() {
-    for (let i = 0; i < usersApi.length; i++) {
+    console.log("makeDogsArray");
+    console.log(dogsImages.length);
+    console.log(usersApi.length);
+    for (let i = 0; i < dogsImages.length; i++) {
         let dog = {
             image: dogsImages[i],
             name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
@@ -124,11 +157,9 @@ function makeDogsArray() {
             dogs.push(dog);
         }
     }
-    if (apiCounter == 4) {
-        createDogsProfileCard();
-    } else {
-        getDogs();
-    }
+    console.log("dogs:");
+    console.log(dogs);
+    createDogsProfileCard();
 }
 
 function createDogsProfileCard() {
