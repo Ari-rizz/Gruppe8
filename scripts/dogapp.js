@@ -198,9 +198,13 @@ function replaceCard() {
         name: usersApi[newDogIndex].name.first,
         location: usersApi[newDogIndex].location.city,
     };
-    dogs.push(newDog);
-    createDogsProfileCard();
-}
+    const randomIndex = Math.floor(Math.random() * displayDogs.length);// bruker Math.random for å velge en tillfeldig index i display dogs
+    displayDogs[randomIndex] = newDog; // fjerner den gamle og bytter ut hunden fra randomindex men en ny hund
+    
+    displayDogs.push(newDog);
+    createDogsProfileCard(displayDogs);
+    }
+
 // greeting array
 const greeting = [
     "Voff voff",
