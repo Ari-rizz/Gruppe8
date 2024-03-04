@@ -162,25 +162,24 @@ function makeDogsArray() {
     createDogsProfileCard();
 }
 
-function createDogsProfileCard() {
+function createDogsProfileCard(displayDogs) {
     cardSection.innerHTML = "";
-    displayDogs = dogs.slice(0, 10); //blir lagt inn i nytt array
     displayDogs.forEach((dog, index) => {
         const dogCard = document.createElement("article");
         dogCard.classList.add("card");
-        dogCard.innerHTML = `<img src= "${dogs[index].image}" alt="${dogs[index].name}" style="width: 100%">`;
+        dogCard.innerHTML = `<img src= "${displayDogs[index].image}" alt="${displayDogs[index].name}" style="width: 100%">`;
 
         const dogInfo = document.createElement("div");
         dogInfo.classList.add("container");
-        dogInfo.innerHTML += `<h3>${dogs[index].name}</h3>`;
-        dogInfo.innerHTML += `<p>${dogs[index].location}</p>`;
+        dogInfo.innerHTML += `<h3>${displayDogs[index].name}</h3>`;
+        dogInfo.innerHTML += `<p>${displayDogs[index].location}</p>`;
         dogCard.appendChild(dogInfo);
 
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Slett";
         deleteButton.addEventListener("click", () => {
             dogCard.remove();
-            dogs.splice(index, 1); //fjerner hunden fra arrayet
+            displayDogs.splice(index, 1); //fjerner hunden fra arrayet
             replaceCard();
         });
         dogCard.appendChild(deleteButton);
@@ -205,14 +204,19 @@ newDogBtn.addEventListener("click", () => {
     showDogs();
 });
 
-function showDogs() {
-    const showingDogs = 10; // antall hunder som vises
-    const displayDogs = dogs.slice(0, showingDogs); //legger hundene som er vist inn i displayDogs (tar ut og legges i nytt array)
+let showDogsCounter = 0;
 
-    if (dogs.length <= showingDogs) {
-        getDogs();
-    }
-    console.log("nye hunder", displayDogs);
+function showDogs() {
+  const showingDogs = 10; // antall hunder som vises
+  const displayDogs = dogs.slice(showDogsCounter, showDogsCounter + showingDogs); //legger hundene som er vist inn i displayDogs (tar ut og legges i nytt array)
+
+  if (dogs.length <= showingDogs) {
+      getDogs();
+  }
+
+createDogsProfileCard(displayDogs)
+showDogsCounter += showingDogs;
+  console.log("nye hunder", displayDogs);
 }
 
 //function for å erstatte det slettede elemente
@@ -225,9 +229,13 @@ function replaceCard() {
         name: usersApi[newDogIndex].name.first,
         location: usersApi[newDogIndex].location.city,
     };
-    dogs.push(newDog);
-    createDogsProfileCard();
-}
+    const randomIndex = Math.floor(Math.random() * displayDogs.length);// bruker Math.random for å velge en tillfeldig index i display dogs
+    displayDogs[randomIndex] = newDog; // fjerner den gamle og bytter ut hunden fra randomindex men en ny hund
+    
+    displayDogs.push(newDog);
+    createDogsProfileCard(displayDogs);
+    }
+
 // greeting array
 const greeting = [
     "Voff voff",
