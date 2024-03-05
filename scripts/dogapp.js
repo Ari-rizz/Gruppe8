@@ -92,7 +92,7 @@ function buildDogsImages(dogs) {
 async function fetchRandomUsers() {
     try {
         const response = await fetch(
-            `https://randomuser.me/api/?results=${dogsImages.length}&nat=no&inc=name,location,picture.large`
+            `https://randomuser.me/api/?results=${dogsImages.length}&nat=no&inc=name,location,picture`
         );
         const data = await response.json();
         usersApi = data.results;
@@ -103,9 +103,10 @@ async function fetchRandomUsers() {
 }
 // Funksjon som setter sammen objektene med bilde, navn og bosted
 function makeDogsArray() {
+    console.log(usersApi);
     for (let i = 0; i < dogsImages.length; i++) {
         let dog = {
-            human: usersApi[i].picture,
+            human: usersApi[i].picture.medium,
             image: dogsImages[i],
             name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
             location: usersApi[i].location.city,
@@ -118,6 +119,7 @@ function makeDogsArray() {
         }
     }
     dogs = shuffleDogs(dogs);
+    console.log(dogs);
     showDogs();
 }
 // Bruker Fisher-Yates-metoden til å blande hunderasene i tilfeldig rekkefølge
@@ -138,6 +140,13 @@ function createDogsProfileCard(array, delBtn) {
         const dogCard = document.createElement("article");
         dogCard.classList.add("card");
         dogCard.innerHTML = `<img src= "${array[index].image}" alt="${array[index].name}" style="width: 100%">`;
+
+        const humanImg = document.createElement("div");
+        humanImg.innerHTML = `<img src="${array[index].human}" alt="${array[index].name}">`;
+        humanImg.style.display = "flex";
+        humanImg.style.position = "relative";
+        humanImg.style.zIndex = "100";
+        humanImg.style.top = "10px";
 
         const dogInfo = document.createElement("div");
         dogInfo.classList.add("container");
@@ -163,6 +172,7 @@ function createDogsProfileCard(array, delBtn) {
         dogCard.addEventListener("click", () => {
             showGreeting(dogCard);
         });
+        dogCard.appendChild(humanImg);
         cardSection.appendChild(dogCard);
     });
 }
