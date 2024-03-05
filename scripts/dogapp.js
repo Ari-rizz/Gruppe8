@@ -81,7 +81,6 @@ function showSelectedBreed(breed) {
 }
 
 fetchBreedDogs();
-
 async function fetchBreedDogs() {
     breeds.forEach(async (breed) => {
         if (breed.breed === "dittvalg") {
@@ -90,36 +89,21 @@ async function fetchBreedDogs() {
             if (breed.breed === "retriever-golden") {
                 breed.breed = "retriever/golden";
             }
-
             try {
                 const response = await fetch(
-                    `https://dog.ceo/api/breed/${breed.breed}/images/random/10`
+                    `https://dog.ceo/api/breed/${breed.breed}/images/random/25`
                 );
                 const data = await response.json();
-                setTimeout(buildDogsImages(data.message), 100);
-                console.log("hentet " + breed.breed);
+                setTimeout(buildDogsImages(data.message), 70);
             } catch (error) {
                 console.log("Kunne ikke laste inn hundedata: " + error);
             }
         }
     });
-    setTimeout(fetchRandomUsers, 70);
+    setTimeout(fetchRandomUsers, 170);
 }
-// Fetch som henter 50 bilder av hundene
-async function fetchDogs() {
-    try {
-        const response = await fetch(
-            "https://dog.ceo/api/breeds/image/random/"
-        );
-        const data = await response.json();
-        buildDogsImages(data.message);
-    } catch (error) {
-        console.log("Kunne ikke laste inn hundedata: " + error);
-    }
-    setTimeout(fetchRandomUsers, 70);
-}
+// Funksjon som slår sammen arrays med bildene
 function buildDogsImages(dogs) {
-    console.log(dogs);
     dogsImages = dogsImages.concat(dogs); // Concat-metoden legger sammen arrays
     console.log(dogsImages.length);
     return;
@@ -127,7 +111,6 @@ function buildDogsImages(dogs) {
 // Fetch som henter 50 navn og bosteder
 async function fetchRandomUsers() {
     console.log("fetchRandomUsers, lengden på dogsImages");
-    console.log(dogsImages.length);
     try {
         const response = await fetch(
             `https://randomuser.me/api/?results=${dogsImages.length}&nat=no&inc=name,location`
@@ -141,9 +124,6 @@ async function fetchRandomUsers() {
 }
 // Funksjon som setter sammen objektene med bilde, navn og bosted
 function makeDogsArray() {
-    console.log("makeDogsArray");
-    console.log(dogsImages.length);
-    console.log(usersApi.length);
     for (let i = 0; i < dogsImages.length; i++) {
         let dog = {
             image: dogsImages[i],
@@ -157,9 +137,36 @@ function makeDogsArray() {
             dogs.push(dog);
         }
     }
-    console.log("dogs:");
-    console.log(dogs);
-    createDogsProfileCard();
+    dogs = shuffleDogs(dogs);
+    // createDogsProfileCard();
+    renderCards();
+}
+// Bruker Fisher-Yates-metoden til å blande hunderasene i tilfeldig rekkefølge
+function shuffleDogs(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function renderCards() {
+    // Funksjon som skal vise 10 og 10 kort fra dogs på skermen
+    cardSection.innerHTML = ""; // Tømmer skjermen
+    console.log("Da var vi klare til å vise frem kort på skjermen");
+    unikeDogs = getTenRandomDogs();
+}
+
+function getTenRandomDogs() {
+    const unikeDogs = [];
+    while (unikeDogs.length < 10) {
+        const randomNumber = Math.floor(Math.random() * dogs.length);
+        if (!unikeDogs.includes(randomNumber)) {
+            unikeDogs.push(randomNumber);
+        }
+    }
+    return unikeDogs;
+    // console.log(unikeDogs);
 }
 
 function createDogsProfileCard(displayDogs) {
@@ -175,6 +182,12 @@ function createDogsProfileCard(displayDogs) {
         dogInfo.innerHTML += `<p>${displayDogs[index].location}</p>`;
         dogCard.appendChild(dogInfo);
 
+        const chatButton = document.createElement("button");
+        chatButton.textContent = "Chat";
+        chatButton.addEventListener("click", () => {
+            //Chat funksjon her
+        });
+
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Slett";
         deleteButton.addEventListener("click", () => {
@@ -184,11 +197,6 @@ function createDogsProfileCard(displayDogs) {
         });
         dogCard.appendChild(deleteButton);
 
-        const chatButton = document.createElement("button");
-        chatButton.textContent = "Chat";
-        chatButton.addEventListener("click", () => {
-            //Chat funskjon her
-        });
         dogCard.appendChild(chatButton);
         //kaller på showGreeting når kortet blir trykket på
         dogCard.addEventListener("click", () => {
@@ -206,35 +214,38 @@ newDogBtn.addEventListener("click", () => {
 
 let showDogsCounter = 0;
 
-function showDogs() {
-  const showingDogs = 10; // antall hunder som vises
-  const displayDogs = dogs.slice(showDogsCounter, showDogsCounter + showingDogs); //legger hundene som er vist inn i displayDogs (tar ut og legges i nytt array)
+// function showDogs() {
+//     const showingDogs = 10; // antall hunder som vises
+//     const displayDogs = dogs.slice(
+//         showDogsCounter,
+//         showDogsCounter + showingDogs
+//     ); //legger hundene som er vist inn i displayDogs (tar ut og legges i nytt array)
 
-  if (dogs.length <= showingDogs) {
-      getDogs();
-  }
+//     if (dogs.length <= showingDogs) {
+//         getDogs();
+//     }
 
-createDogsProfileCard(displayDogs)
-showDogsCounter += showingDogs;
-  console.log("nye hunder", displayDogs);
-}
+//     createDogsProfileCard(displayDogs);
+//     showDogsCounter += showingDogs;
+//     console.log("nye hunder", displayDogs);
+// }
 
 //function for å erstatte det slettede elemente
-function replaceCard() {
-    const newDogIndex = Math.floor(
-        Math.random() * (dogsImages.length, usersApi.length)
-    );
-    const newDog = {
-        image: dogsImages[newDogIndex],
-        name: usersApi[newDogIndex].name.first,
-        location: usersApi[newDogIndex].location.city,
-    };
-    const randomIndex = Math.floor(Math.random() * displayDogs.length);// bruker Math.random for å velge en tillfeldig index i display dogs
-    displayDogs[randomIndex] = newDog; // fjerner den gamle og bytter ut hunden fra randomindex men en ny hund
-    
-    displayDogs.push(newDog);
-    createDogsProfileCard(displayDogs);
-    }
+// function replaceCard() {
+//     const newDogIndex = Math.floor(
+//         Math.random() * (dogsImages.length, usersApi.length)
+//     );
+//     const newDog = {
+//         image: dogsImages[newDogIndex],
+//         name: usersApi[newDogIndex].name.first,
+//         location: usersApi[newDogIndex].location.city,
+//     };
+//     const randomIndex = Math.floor(Math.random() * displayDogs.length); // bruker Math.random for å velge en tillfeldig index i display dogs
+//     displayDogs[randomIndex] = newDog; // fjerner den gamle og bytter ut hunden fra randomindex men en ny hund
+
+//     displayDogs.push(newDog);
+//     createDogsProfileCard(displayDogs);
+// }
 
 // greeting array
 const greeting = [
