@@ -125,7 +125,7 @@ function makeDogsArray() {
         }
     }
     if (apiCounter == 4) {
-        createDogsProfileCard();
+        createDogsProfileCard(displayDogs);
     } else {
         getDogs();
     }
@@ -133,7 +133,7 @@ function makeDogsArray() {
 
 function createDogsProfileCard(displayDogs) {
     cardSection.innerHTML = "";
-    displayDogs.forEach((dog, index) => {
+    displayDogs.forEach((dog,index) => {
         const dogCard = document.createElement("article");
         dogCard.classList.add("card");
         dogCard.innerHTML = `<img src= "${displayDogs[index].image}" alt="${displayDogs[index].name}" style="width: 100%">`;
