@@ -104,7 +104,7 @@ async function fetchBreedDogs() {
 }
 // Funksjon som slår sammen arrays med bildene
 function buildDogsImages(dogs) {
-    dogsImages = dogsImages.concat(dogs); // Concat-metoden legger sammen arrays
+    dogsImages = dogsImages.concat(dogs); // concat-metoden legger sammen arrays
     console.log(dogsImages.length);
     return;
 }
@@ -113,7 +113,7 @@ async function fetchRandomUsers() {
     console.log("fetchRandomUsers, lengden på dogsImages");
     try {
         const response = await fetch(
-            `https://randomuser.me/api/?results=${dogsImages.length}&nat=no&inc=name,location`
+            `https://randomuser.me/api/?results=${dogsImages.length}&nat=no&inc=name,location,picture.large`
         );
         const data = await response.json();
         usersApi = data.results;
@@ -126,6 +126,7 @@ async function fetchRandomUsers() {
 function makeDogsArray() {
     for (let i = 0; i < dogsImages.length; i++) {
         let dog = {
+            human: usersApi[i].picture.large,
             image: dogsImages[i],
             name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
             location: usersApi[i].location.city,
