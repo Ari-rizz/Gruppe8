@@ -126,7 +126,7 @@ async function fetchRandomUsers() {
 function makeDogsArray() {
     for (let i = 0; i < dogsImages.length; i++) {
         let dog = {
-            human: usersApi[i].picture.large,
+            human: usersApi[i].picture,
             image: dogsImages[i],
             name: usersApi[i].name.first, // + " " + usersApi[i].name.last, Vet ikke om vi trenger etternavnet?
             location: usersApi[i].location.city,
@@ -139,8 +139,7 @@ function makeDogsArray() {
         }
     }
     dogs = shuffleDogs(dogs);
-    // createDogsProfileCard();
-    renderCards();
+     createDogsProfileCard(displayDogs);
 }
 // Bruker Fisher-Yates-metoden til å blande hunderasene i tilfeldig rekkefølge
 function shuffleDogs(array) {
@@ -151,24 +150,6 @@ function shuffleDogs(array) {
     return array;
 }
 
-function renderCards() {
-    // Funksjon som skal vise 10 og 10 kort fra dogs på skermen
-    cardSection.innerHTML = ""; // Tømmer skjermen
-    console.log("Da var vi klare til å vise frem kort på skjermen");
-    unikeDogs = getTenRandomDogs();
-}
-
-function getTenRandomDogs() {
-    const unikeDogs = [];
-    while (unikeDogs.length < 10) {
-        const randomNumber = Math.floor(Math.random() * dogs.length);
-        if (!unikeDogs.includes(randomNumber)) {
-            unikeDogs.push(randomNumber);
-        }
-    }
-    return unikeDogs;
-    // console.log(unikeDogs);
-}
 
 function createDogsProfileCard(displayDogs) {
     cardSection.innerHTML = "";
@@ -192,9 +173,7 @@ function createDogsProfileCard(displayDogs) {
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Slett";
         deleteButton.addEventListener("click", () => {
-            dogCard.remove();
-            displayDogs.splice(index, 1); //fjerner hunden fra arrayet
-            replaceCard();
+            replaceCard(index);
         });
         dogCard.appendChild(deleteButton);
 
@@ -215,39 +194,53 @@ newDogBtn.addEventListener("click", () => {
 
 let showDogsCounter = 0;
 
-// function showDogs() {
-//     const showingDogs = 10; // antall hunder som vises
-//     const displayDogs = dogs.slice(
-//         showDogsCounter,
-//         showDogsCounter + showingDogs
-//     ); //legger hundene som er vist inn i displayDogs (tar ut og legges i nytt array)
-
-//     if (dogs.length <= showingDogs) {
-//         getDogs();
-//     }
-
-//     createDogsProfileCard(displayDogs);
-//     showDogsCounter += showingDogs;
-//     console.log("nye hunder", displayDogs);
-// }
+function showDogs() {
+     const showingDogs = 10; // antall hunder som vises
+     const displayDogs = dogs.slice(
+         showDogsCounter,
+        showDogsCounter + showingDogs
+     ); //legger hundene som er vist inn i displayDogs (tar ut og legges i nytt array)
+     createDogsProfileCard(displayDogs);
+     showDogsCounter += showingDogs;
+     console.log("nye hunder", displayDogs);
+ };
 
 //function for å erstatte det slettede elemente
-// function replaceCard() {
-//     const newDogIndex = Math.floor(
-//         Math.random() * (dogsImages.length, usersApi.length)
-//     );
-//     const newDog = {
-//         image: dogsImages[newDogIndex],
-//         name: usersApi[newDogIndex].name.first,
-//         location: usersApi[newDogIndex].location.city,
-//     };
-//     const randomIndex = Math.floor(Math.random() * displayDogs.length); // bruker Math.random for å velge en tillfeldig index i display dogs
-//     displayDogs[randomIndex] = newDog; // fjerner den gamle og bytter ut hunden fra randomindex men en ny hund
+function replaceCard(index) {
+  // fjern det kortet fra displayDogs-arrayet
+  displayDogs.splice(index, 1);
+  // lager en tilfeldig index for ny hund fra dogs arrayet
+  const newDogIndex = Math.floor(Math.random() * dogs.length);
+  // Lager et nytt hundekort, blir mye av den samme koden, kanskje lage en funskjon? funka ikke å brukte createDogProfileCard
+  const newDogCard = document.createElement("article");
+  newDogCard.classList.add("card");
+  newDogCard.innerHTML = `<img src="${dogs[newDogIndex].image}" alt="${dogs[newDogIndex].name}" style="width: 100%">`;
 
-//     displayDogs.push(newDog);
-//     createDogsProfileCard(displayDogs);
-// }
+  const dogInfo = document.createElement("div");
+  dogInfo.classList.add("container");
+  dogInfo.innerHTML += `<h3>${dogs[newDogIndex].name}</h3>`;
+  dogInfo.innerHTML += `<p>${dogs[newDogIndex].location}</p>`;
+  newDogCard.appendChild(dogInfo);
 
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "Slett";
+  deleteButton.addEventListener("click", () => {
+      replaceCard(index); //kortet fjernes og erstattes med et nytt
+  });
+  newDogCard.appendChild(deleteButton);
+  const chatButton = document.createElement("button");
+  chatButton.textContent = "Chat";
+  chatButton.addEventListener("click", () => {
+      // Legg til chatfunksjonen her
+  });
+  newDogCard.appendChild(chatButton);
+  // legger til de nye kortet i displayDogs-arrayet og tar ut det gamle
+  displayDogs.splice(index, 0, dogs[newDogIndex]);
+  // bruker index for å finne korte og replaceWith for og erstatte det med newDogCard
+  const cardToRemove = document.querySelectorAll(".card")[index];
+  cardToRemove.replaceWith(newDogCard);
+}
+// chatgbt foreslo at hvis jeg brukte parametere index for å lage en index for det hundekortet ville det gjøre det enklre å fjerne. Foreslo også reaplaceWith.
 // greeting array
 const greeting = [
     "Voff voff",
