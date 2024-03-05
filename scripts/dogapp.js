@@ -50,39 +50,20 @@ sortOnRace.addEventListener("change", () => {
 });
 // Funksjon som skal vise hundene som er valgt i pull-down-menyen
 function showSelectedBreed(breed) {
-    console.log(breed);
     cardSection.innerHTML = "";
     // Henter hundene fra dogs der image inneholder breed som valgt i pull-down-menyen
     filteredDogs = dogs.filter((dog) => {
         return dog.image.includes(breed);
     });
-    console.log(filteredDogs);
-    filteredDogs.forEach((dog, index) => {
-        const dogCard = document.createElement("article");
-        dogCard.classList.add("card");
-        dogCard.innerHTML = `<img src= "${filteredDogs[index].image}" alt="${filteredDogs[index].name}" style="width: 100%">`;
-        const dogInfo = document.createElement("div");
-        dogInfo.classList.add("container");
-        dogInfo.innerHTML += `<h3>${filteredDogs[index].name}</h3>`;
-        dogInfo.innerHTML += `<p>${filteredDogs[index].location}</p>`;
-        dogCard.appendChild(dogInfo);
-        const chatButton = document.createElement("button");
-        chatButton.textContent = "Chat";
-        chatButton.addEventListener("click", () => {
-            //Chat funksjon her
-        });
-        dogCard.appendChild(chatButton);
-        //kaller på showGreeting når kortet blir trykket på
-        dogCard.addEventListener("click", () => {
-            showGreeting(dogCard);
-        });
-        cardSection.appendChild(dogCard);
-    });
+    delBtn = false;
+    createDogsProfileCard(filteredDogs, delBtn);
 }
 
 fetchBreedDogs();
 async function fetchBreedDogs() {
     breeds.forEach(async (breed) => {
+        // Finner et tilfeldig antall hunder pr rase( 5 - 25)
+        const randomNumber = Math.floor(Math.random() * 16) + 5;
         if (breed.breed === "dittvalg") {
             console.log("Hopp over");
         } else {
@@ -91,7 +72,7 @@ async function fetchBreedDogs() {
             }
             try {
                 const response = await fetch(
-                    `https://dog.ceo/api/breed/${breed.breed}/images/random/25`
+                    `https://dog.ceo/api/breed/${breed.breed}/images/random/${randomNumber}`
                 );
                 const data = await response.json();
                 setTimeout(buildDogsImages(data.message), 70);
@@ -105,10 +86,9 @@ async function fetchBreedDogs() {
 // Funksjon som slår sammen arrays med bildene
 function buildDogsImages(dogs) {
     dogsImages = dogsImages.concat(dogs); // concat-metoden legger sammen arrays
-    console.log(dogsImages.length);
     return;
 }
-// Fetch som henter 50 navn og bosteder
+// Fetch som henter bilde, navn og bosted
 async function fetchRandomUsers() {
     try {
         const response = await fetch(
@@ -138,7 +118,7 @@ function makeDogsArray() {
         }
     }
     dogs = shuffleDogs(dogs);
-    createDogsProfileCard(displayDogs);
+    showDogs();
 }
 // Bruker Fisher-Yates-metoden til å blande hunderasene i tilfeldig rekkefølge
 function shuffleDogs(array) {
@@ -149,17 +129,20 @@ function shuffleDogs(array) {
     return array;
 }
 
-function createDogsProfileCard(displayDogs) {
+// Parametre:
+// arrayet vi skal lage kort fra: array
+// boolean som sier om vi skal vise slett-knappen eller ikke: delBtn
+function createDogsProfileCard(array, delBtn) {
     cardSection.innerHTML = "";
-    displayDogs.forEach((dog, index) => {
+    array.forEach((dog, index) => {
         const dogCard = document.createElement("article");
         dogCard.classList.add("card");
-        dogCard.innerHTML = `<img src= "${displayDogs[index].image}" alt="${displayDogs[index].name}" style="width: 100%">`;
+        dogCard.innerHTML = `<img src= "${array[index].image}" alt="${array[index].name}" style="width: 100%">`;
 
         const dogInfo = document.createElement("div");
         dogInfo.classList.add("container");
-        dogInfo.innerHTML += `<h3>${displayDogs[index].name}</h3>`;
-        dogInfo.innerHTML += `<p>${displayDogs[index].location}</p>`;
+        dogInfo.innerHTML += `<h3>${array[index].name}</h3>`;
+        dogInfo.innerHTML += `<p>${array[index].location}</p>`;
         dogCard.appendChild(dogInfo);
 
         const chatButton = document.createElement("button");
@@ -167,71 +150,77 @@ function createDogsProfileCard(displayDogs) {
         chatButton.addEventListener("click", () => {
             //Chat funksjon her
         });
-
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Slett";
-        deleteButton.addEventListener("click", () => {
-            replaceCard(index);
-        });
-        dogCard.appendChild(deleteButton);
-
+        if (delBtn === true) {
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Slett";
+            deleteButton.addEventListener("click", () => {
+                replaceCard(index);
+            });
+            dogCard.appendChild(deleteButton);
+        }
         dogCard.appendChild(chatButton);
         //kaller på showGreeting når kortet blir trykket på
         dogCard.addEventListener("click", () => {
             showGreeting(dogCard);
         });
-
         cardSection.appendChild(dogCard);
     });
 }
 
 const newDogBtn = document.querySelector("#new-dog-btn");
 newDogBtn.addEventListener("click", () => {
+    showDogsCounter += 10;
     showDogs();
 });
 
 let showDogsCounter = 0;
 
+if (showDogsCounter > dogs.length) {
+    showDogsCounter = 0;
+}
+
 function showDogs() {
+    delBtn = true;
     const showingDogs = 10; // antall hunder som vises
     const displayDogs = dogs.slice(
         showDogsCounter,
         showDogsCounter + showingDogs
     ); //legger hundene som er vist inn i displayDogs (tar ut og legges i nytt array)
-    createDogsProfileCard(displayDogs);
+    createDogsProfileCard(displayDogs, delBtn);
     showDogsCounter += showingDogs;
-    console.log("nye hunder", displayDogs);
 }
 
 //function for å erstatte det slettede elemente
 function replaceCard(index) {
+    delBtn = true;
     // fjern det kortet fra displayDogs-arrayet
     displayDogs.splice(index, 1);
     // lager en tilfeldig index for ny hund fra dogs arrayet
     const newDogIndex = Math.floor(Math.random() * dogs.length);
     // Lager et nytt hundekort, blir mye av den samme koden, kanskje lage en funskjon? funka ikke å brukte createDogProfileCard
-    const newDogCard = document.createElement("article");
-    newDogCard.classList.add("card");
-    newDogCard.innerHTML = `<img src="${dogs[newDogIndex].image}" alt="${dogs[newDogIndex].name}" style="width: 100%">`;
+    createDogsProfileCard(displayDogs, delBtn);
+    // const newDogCard = document.createElement("article");
+    // newDogCard.classList.add("card");
+    // newDogCard.innerHTML = `<img src="${dogs[newDogIndex].image}" alt="${dogs[newDogIndex].name}" style="width: 100%">`;
 
-    const dogInfo = document.createElement("div");
-    dogInfo.classList.add("container");
-    dogInfo.innerHTML += `<h3>${dogs[newDogIndex].name}</h3>`;
-    dogInfo.innerHTML += `<p>${dogs[newDogIndex].location}</p>`;
-    newDogCard.appendChild(dogInfo);
+    // const dogInfo = document.createElement("div");
+    // dogInfo.classList.add("container");
+    // dogInfo.innerHTML += `<h3>${dogs[newDogIndex].name}</h3>`;
+    // dogInfo.innerHTML += `<p>${dogs[newDogIndex].location}</p>`;
+    // newDogCard.appendChild(dogInfo);
 
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Slett";
-    deleteButton.addEventListener("click", () => {
-        replaceCard(index); //kortet fjernes og erstattes med et nytt
-    });
-    newDogCard.appendChild(deleteButton);
-    const chatButton = document.createElement("button");
-    chatButton.textContent = "Chat";
-    chatButton.addEventListener("click", () => {
-        // Legg til chatfunksjonen her
-    });
-    newDogCard.appendChild(chatButton);
+    // const deleteButton = document.createElement("button");
+    // deleteButton.textContent = "Slett";
+    // deleteButton.addEventListener("click", () => {
+    //     replaceCard(index); //kortet fjernes og erstattes med et nytt
+    // });
+    // newDogCard.appendChild(deleteButton);
+    // const chatButton = document.createElement("button");
+    // chatButton.textContent = "Chat";
+    // chatButton.addEventListener("click", () => {
+    //     // Legg til chatfunksjonen her
+    // });
+    // newDogCard.appendChild(chatButton);
     // legger til de nye kortet i displayDogs-arrayet og tar ut det gamle
     displayDogs.splice(index, 0, dogs[newDogIndex]);
     // bruker index for å finne korte og replaceWith for og erstatte det med newDogCard
