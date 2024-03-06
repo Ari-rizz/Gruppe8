@@ -25,7 +25,6 @@ async function getRandomUsers() {
 
 womenBtn.addEventListener("click", () => {
     preferedGender = "female";
-
     selectGender(preferedGender);
 });
 menBtn.addEventListener("click", () => {
@@ -41,13 +40,10 @@ function selectGender(gender) {
     chosenGender = gender;
     if (chosenGender !== "both") {
         sortedPeople = people.filter((person) => person.gender === gender);
-        console.log(sortedPeople);
     } else {
         sortedPeople = people;
-        console.log(sortedPeople);
     }
-    console.log(chosenGender);
-    createProfiles(chosenGender);
+    createProfile(chosenGender);
 }
 
 function showProfile(person) {
@@ -81,7 +77,7 @@ function showProfile(person) {
     cardSection.appendChild(profileCard);
 }
 // laget createProfiles på samme måte som vi lagde createDogProfileCard
-function createProfiles(gender) {
+function createProfile(gender) {
     const randomNumber = Math.floor(Math.random() * sortedPeople.length);
     personToShow = sortedPeople[randomNumber];
     showProfile(personToShow);
