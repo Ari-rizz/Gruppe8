@@ -5,7 +5,7 @@ getRandomUsers();
 async function getRandomUsers() {
     try {
         const response = await fetch(
-            "https://randomuser.me/api/?results=50&nat=no&inc=name,location"
+            "https://randomuser.me/api/?results=50&nat=no&inc=picture,gender,name,location"
         );
         const data = await response.json();
         people = data.results;
