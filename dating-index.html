@@ -1,51 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="Gruppe 8" />
-    <meta name="description" content="Finn kjærleiken i dag!" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/dating-style.css" />
-    <title>Dating-side</title>
-  </head>
-  <body>
-    <header>
-      <h1>Finn kjærleiken i dag!</h1>
-    </header>
-    <main>
-   <div id="score">
-   </div>
-   <div>
-   <button id="womenBtn"></button>
-   <button id="menBtn"></button>
-<button id="bothBtn"></button>
-</div>
-<div class="card-section">
-      <div class="card male-card">
-        <img src="assets/male-1.jpg" alt="Avatar" style="width: 100%" />
-        <div class="container">
-          <h4><b>John Doe</b></h4>
-          <p>Architect & Engineer</p>
-        </div>
-      </div>
-    
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="Gruppe 8" />
+        <meta name="description" content="Finn kjærleiken i dag!" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="css/dating-style.css" />
+        <title>Dating-side</title>
+    </head>
+    <body>
+        <header>
+            <h1>Finn kjærleiken i dag!</h1>
+        </header>
+        <main>
+            <div id="score"></div>
+            <div>
+                <button class="gender-btn" id="womenBtn">
+                    Jeg vil se kvinner
+                </button>
+                <button class="gender-btn" id="menBtn">Jeg vil se menn</button>
+                <button class="gender-btn" id="bothBtn">
+                    Jeg vil se både og
+                </button>
+            </div>
+            <div class="card-section">
+                <div class="card male-card">
+                    <img
+                        src="assets/male-1.jpg"
+                        alt="Avatar"
+                        style="width: 100%"
+                    />
+                    <div class="container">
+                        <h4><b>John Doe</b></h4>
+                        <p>Architect & Engineer</p>
+                    </div>
+                </div>
 
-      <div class="card female-card">
-        <img src="assets/female-1.jpg" alt="Avatar" style="width: 100%" />
-        <div class="container">
-          <h3><b>Jane Doe</b></h3>
-          <p>Has neck pains</p>
-        </div>
-      </div>
-    </div>
-    </main>
+                <div class="card female-card">
+                    <img
+                        src="assets/female-1.jpg"
+                        alt="Avatar"
+                        style="width: 100%"
+                    />
+                    <div class="container">
+                        <h3><b>Jane Doe</b></h3>
+                        <p>Has neck pains</p>
+                    </div>
+                </div>
+            </div>
+        </main>
 
-    <script src="scripts/dating.js"></script>
-  </body>
+        <script src="scripts/dating.js"></script>
+    </body>
 </html>
