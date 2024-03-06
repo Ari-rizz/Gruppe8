@@ -16,7 +16,6 @@ async function getRandomUsers() {
         );
         const data = await response.json();
         people = data.results;
-        setTimeout(selectGender, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn brukerdata: " + error);
     }
@@ -37,13 +36,16 @@ bothBtn.addEventListener("click", () => {
 });
 
 function selectGender(gender) {
-    if (gender !== "both") {
+    chosenGender = gender;
+    if (chosenGender !== "both") {
         sortedPeople = people.filter((person) => person.gender === gender);
         console.log(sortedPeople);
     } else {
         sortedPeople = people;
         console.log(sortedPeople);
     }
+    console.log(chosenGender);
+    createProfiles(chosenGender);
 }
 
 function showUsers() {
@@ -51,19 +53,20 @@ function showUsers() {
     console.log(people);
 }
 // laget createProfiles på samme måte som vi lagde createDogProfileCard
-function createProfiles() {
+function createProfiles(gender) {
+    console.log(gender);
     const cardSection = document.querySelector(".card-section");
-    cardSection.innerHTML = "";
-    people.forEach((profile) => {
-        const profileCard = document.createElement("div");
-        profileCard.classList.add("card");
-        profileCard.innerHTML = `
-      <img src="${profile.picture}" alt="${profile.name.first}'s profile picture">
-      <h4>${profile.name.first}</h4>
-      <p>${profile.location.city}, ${profile.location.country}</p>
-    `;
-        cardSection.appendChild(profileCard);
-    });
+    cardSection.innerHTML = `Jeg vil se ${gender}`;
+    // people.forEach((profile) => {
+    //     const profileCard = document.createElement("div");
+    //     profileCard.classList.add("card");
+    //     profileCard.innerHTML = `
+    //   <img src="${profile.picture}" alt="${profile.name.first}'s profile picture">
+    //   <h4>${profile.name.first}</h4>
+    //   <p>${profile.location.city}, ${profile.location.country}</p>
+    // `;
+    //     cardSection.appendChild(profileCard);
+    // });
 }
 
 function swipeLeftAndRigth(event) {
