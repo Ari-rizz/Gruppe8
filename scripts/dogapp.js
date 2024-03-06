@@ -103,7 +103,6 @@ async function fetchRandomUsers() {
 }
 // Funksjon som setter sammen objektene med bilde, navn og bosted
 function makeDogsArray() {
-    console.log(usersApi);
     for (let i = 0; i < dogsImages.length; i++) {
         let dog = {
             human: usersApi[i].picture.medium,
@@ -119,7 +118,6 @@ function makeDogsArray() {
         }
     }
     dogs = shuffleDogs(dogs);
-    console.log(dogs);
     showDogs();
 }
 // Bruker Fisher-Yates-metoden til å blande hunderasene i tilfeldig rekkefølge
