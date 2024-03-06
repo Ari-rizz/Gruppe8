@@ -24,9 +24,9 @@ function createProfile() {
     const profileCard = document.querySelector(`.card`);
     cardSection.innerHTML = "";
     profileCard.innerHTML = `
-<img src="${profile.picture.large}" alt="${profile.name.first} sitt profil bilde.">
-<h4>${profile.name.first}</h4>
-<p>${profile.location.city}, ${profile.location.country}</p>`;
+<img src="${people.picture.large}" alt="${people.name.first} sitt profil bilde.">
+<h4>${people.name.first}</h4>
+<p>${people.location.city}, ${people.location.country}</p>`;
 }
 
 function swipeLeftAndRigth(event) {
