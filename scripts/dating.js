@@ -14,19 +14,25 @@ async function getRandomUsers() {
         console.log("Kunne ikke laste inn brukerdata: " + error);
     }
 }
+
 function showUsers() {
-    createProfile();
-    console.log(profiles);
+    createProfiles();
+    console.log(people);
 }
-function createProfile() {
-    const profile = people;
-    const cardSection = document.querySelector(`.card-section`);
-    const profileCard = document.querySelector(`.card`);
+// laget createProfiles på samme måte som vi lagde createDogProfileCard
+function createProfiles() {
+    const cardSection = document.querySelector(".card-section");
     cardSection.innerHTML = "";
-    profileCard.innerHTML = `
-<img src="${people.picture.large}" alt="${people.name.first} sitt profil bilde.">
-<h4>${people.name.first}</h4>
-<p>${people.location.city}, ${people.location.country}</p>`;
+    people.forEach((profile) => {
+        const profileCard = document.createElement("div");
+        profileCard.classList.add("card");
+        profileCard.innerHTML = `
+      <img src="${profile.picture}" alt="${profile.name.first}'s profile picture">
+      <h4>${profile.name.first}</h4>
+      <p>${profile.location.city}, ${profile.location.country}</p>
+    `;
+        cardSection.appendChild(profileCard);
+    });
 }
 
 function swipeLeftAndRigth(event) {
@@ -36,3 +42,6 @@ function swipeLeftAndRigth(event) {
         showUsers();
     }
 }
+// eventlistner for taster og for at det informasjon skal bli hentet inn med engang du laster inn siden
+window.addEventListener("load", getRandomUsers);
+window.addEventListener("keydown", swipeLeftAndRigth);
