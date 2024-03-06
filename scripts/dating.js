@@ -8,6 +8,8 @@ womenBtn = document.querySelector("#womenBtn");
 menBtn = document.querySelector("#menBtn");
 bothBtn = document.querySelector("#bothBtn");
 
+cardSection = document.querySelector(".card-section");
+
 getRandomUsers();
 async function getRandomUsers() {
     try {
@@ -48,15 +50,41 @@ function selectGender(gender) {
     createProfiles(chosenGender);
 }
 
-function showUsers() {
-    createProfiles();
-    console.log(people);
+function showProfile(person) {
+    // Viser frem en person i cardSection
+    cardSection.innerHTML = "";
+    console.log("Viser person i cardSection");
+    const profileCard = document.createElement("div");
+    profileCard.innerHTML = "";
+    profileCard.classList.add("card");
+    const imgDiv = document.createElement("div");
+    imgDiv.innerHTML = `<img src="${person.picture.large}" alt="${person.name.first}'s profile picture">`;
+    profileCard.appendChild(imgDiv);
+    const nameDiv = document.createElement("div");
+    nameDiv.innerHTML = `<h4>${person.name.first}</h4>`;
+    nameDiv.innerHTML += `<p>${person.location.city}</p>`;
+    profileCard.appendChild(nameDiv);
+
+    const swipeLeft = document.createElement("button");
+    swipeLeft.innerHTML = "<= NOPE";
+    swipeLeft.addEventListener("click", () => {
+        console.log("Jeg er ikke interessert!");
+    });
+
+    const swipeRight = document.createElement("button");
+    swipeRight.innerHTML = "YES =>";
+    swipeRight.addEventListener("click", () => {
+        console.log("Jeg er interessert!");
+    });
+    profileCard.appendChild(swipeLeft);
+    profileCard.appendChild(swipeRight);
+    cardSection.appendChild(profileCard);
 }
 // laget createProfiles på samme måte som vi lagde createDogProfileCard
 function createProfiles(gender) {
-    console.log(gender);
-    const cardSection = document.querySelector(".card-section");
-    cardSection.innerHTML = `Jeg vil se ${gender}`;
+    const randomNumber = Math.floor(Math.random() * sortedPeople.length);
+    personToShow = sortedPeople[randomNumber];
+    showProfile(personToShow);
     // people.forEach((profile) => {
     //     const profileCard = document.createElement("div");
     //     profileCard.classList.add("card");
