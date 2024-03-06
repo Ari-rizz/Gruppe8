@@ -177,6 +177,7 @@ function createDogsProfileCard(array, delBtn) {
 
 const newDogBtn = document.querySelector("#new-dog-btn");
 newDogBtn.addEventListener("click", () => {
+    sortOnRace.value = "dittvalg";
     showDogsCounter += 10;
     showDogs();
 });
@@ -190,10 +191,7 @@ if (showDogsCounter > dogs.length) {
 function showDogs() {
     delBtn = true;
     const showingDogs = 10; // antall hunder som vises
-    const displayDogs = dogs.slice(
-        showDogsCounter,
-        showDogsCounter + showingDogs
-    ); //legger hundene som er vist inn i displayDogs (tar ut og legges i nytt array)
+    displayDogs = dogs.slice(showDogsCounter, showDogsCounter + showingDogs); //legger hundene som er vist inn i displayDogs (tar ut og legges i nytt array)
     createDogsProfileCard(displayDogs, delBtn);
     showDogsCounter += showingDogs;
 }
@@ -201,42 +199,14 @@ function showDogs() {
 //function for å erstatte det slettede elemente
 function replaceCard(index) {
     delBtn = true;
-    // fjern det kortet fra displayDogs-arrayet
-    displayDogs.splice(index, 1);
     // lager en tilfeldig index for ny hund fra dogs arrayet
     const newDogIndex = Math.floor(Math.random() * dogs.length);
-    // Lager et nytt hundekort, blir mye av den samme koden, kanskje lage en funskjon? funka ikke å brukte createDogProfileCard
-    createDogsProfileCard(displayDogs, delBtn);
-    // const newDogCard = document.createElement("article");
-    // newDogCard.classList.add("card");
-    // newDogCard.innerHTML = `<img src="${dogs[newDogIndex].image}" alt="${dogs[newDogIndex].name}" style="width: 100%">`;
 
-    // const dogInfo = document.createElement("div");
-    // dogInfo.classList.add("container");
-    // dogInfo.innerHTML += `<h3>${dogs[newDogIndex].name}</h3>`;
-    // dogInfo.innerHTML += `<p>${dogs[newDogIndex].location}</p>`;
-    // newDogCard.appendChild(dogInfo);
-
-    // const deleteButton = document.createElement("button");
-    // deleteButton.textContent = "Slett";
-    // deleteButton.addEventListener("click", () => {
-    //     replaceCard(index); //kortet fjernes og erstattes med et nytt
-    // });
-    // newDogCard.appendChild(deleteButton);
-    // const chatButton = document.createElement("button");
-    // chatButton.textContent = "Chat";
-    // chatButton.addEventListener("click", () => {
-    //     // Legg til chatfunksjonen her
-    // });
-    // newDogCard.appendChild(chatButton);
-    // legger til de nye kortet i displayDogs-arrayet og tar ut det gamle
-    displayDogs.splice(index, 0, dogs[newDogIndex]);
-    // bruker index for å finne korte og replaceWith for og erstatte det med newDogCard
-    const cardToRemove = document.querySelectorAll(".card")[index];
-    cardToRemove.replaceWith(newDogCard);
+    let replacementDog = dogs[newDogIndex];
+    displayDogs[index] = replacementDog;
+    replacementDog = createDogsProfileCard(displayDogs, delBtn);
 }
-// chatgbt foreslo at hvis jeg brukte parametere index for å lage en index for det hundekortet ville det gjøre det enklre å fjerne. Foreslo også reaplaceWith.
-// greeting array
+
 const greeting = [
     "Voff voff",
     "Grrr!",
