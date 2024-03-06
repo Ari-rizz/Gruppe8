@@ -1,32 +1,38 @@
 let people = [];
-let likedProfiles = [];
-let likes = 10;
+let profiles = 0;
 
 getRandomUsers();
 async function getRandomUsers() {
     try {
         const response = await fetch(
-            "https://randomuser.me/api/?results=50&nat=no&inc=picture,gender,name,location"
+            "https://randomuser.me/api/?results=50&nat=no&inc=name,location"
         );
         const data = await response.json();
         people = data.results;
-        setTimeout(showProfile, 500);
+        setTimeout(showUsers, 500);
     } catch (error) {
         console.log("Kunne ikke laste inn brukerdata: " + error);
     }
 }
-function showProfile() {
-    const profile = document.createElement("div");
-    profile.classList.add("profiles"); // Hvis vi skal style med css-fil
-
-    console.log(people);
+function showUsers() {
+    createProfile();
+    console.log(profiles);
 }
-const profileCard = document.querySelector(`profile`);
+function createProfile() {
+    const profile = people;
+    const cardSection = document.querySelector(`.card-section`);
+    const profileCard = document.querySelector(`.card`);
+    cardSection.innerHTML = "";
+    profileCard.innerHTML = `
+<img src="${profile.picture.large}" alt="${profile.name.first} sitt profil bilde.">
+<h4>${profile.name.first}</h4>
+<p>${profile.location.city}, ${profile.location.country}</p>`;
+}
 
 function swipeLeftAndRigth(event) {
-    if (evnet.key === `ArrowLeft`) {
-        newProfile();
+    if (event.key === `ArrowLeft`) {
+        showUsers();
     } else if (event.key === `ArrowRigth`) {
-        newProfile();
+        showUsers();
     }
 }
