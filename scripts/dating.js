@@ -57,7 +57,7 @@ function showLikedProfiles() {
         const profileCard = document.createElement("div");
         const profileCardImg = document.createElement("div");
         profileCardImg.innerHTML = `<img src="${likedprofiles[index].picture.medium}" />`;
-        profileCardImg.style.width = "100px";
+        profileCardImg.style.width = "150px";
         const profileCardText = document.createElement("div");
         profileCardText.innerHTML = `<h3>${likedprofiles[index].name.first}</h3><p>${likedprofiles[index].location.city}</p>`;
 
@@ -69,7 +69,13 @@ function showLikedProfiles() {
         editBtn.addEventListener("click", () => {
             editPerson(person);
         });
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerHTML = "Slett";
+        deleteBtn.addEventListener("click", () => {
+            deletePerson(person);
+        });
         profileCard.appendChild(editBtn);
+        profileCard.appendChild(deleteBtn);
         likedProfilesContainer.appendChild(profileCard);
         // styler likedProfilesContainer
         likedProfilesContainer.style.display = "flex";
