@@ -1,7 +1,8 @@
 let peopleApi = []; // Her er vår database med alle objekter
 let sortedPeople = []; // Her er vår database med menn og/eller kvinner
 let likedprofiles = []; // Her legges våre favoritter
-let likes = 10; // Antall swipes
+let likes = 10; // Antall likte profiler
+let swipes = 10; // Antall swipes
 let preferedGender = "";
 
 womenBtn = document.querySelector("#womenBtn");
@@ -9,6 +10,43 @@ menBtn = document.querySelector("#menBtn");
 bothBtn = document.querySelector("#bothBtn");
 
 cardSection = document.querySelector(".card-section");
+
+// Sjekker og evt henter inn data fra localeStorage
+checkLocalStorage();
+function checkLocalStorage(person) {
+    if (localStorage.getItem("likedprofiles")) {
+        likedprofiles = JSON.parse(localStorage.getItem("likedprofiles"));
+        console.log("Likedprofiles hentet fra localStorage");
+        console.log(likedprofiles);
+        if (person) {
+            likedprofiles.push(person);
+            localStorage.setItem(
+                "likedprofiles",
+                JSON.stringify(likedprofiles)
+            );
+            console.log("Likedprofiles lagret i localStorage");
+            console.log(likedprofiles);
+        }
+    } else {
+        console.log("Ingen likedprofiles i localStorage");
+        if (person) {
+            likedprofiles.push(person);
+            localStorage.setItem(
+                "likedprofiles",
+                JSON.stringify(likedprofiles)
+            );
+        }
+    }
+}
+
+// Justerer antall likes i forhold til likedprofiles
+likes -= likedprofiles.length;
+
+if (likes <= 0) {
+    alert(
+        "Du har nå ikke plass til flere favoritter! For å legge til flere favoritter må du slette noen av de gamle."
+    );
+}
 
 getRandomUsers();
 async function getRandomUsers() {
@@ -47,6 +85,7 @@ function selectGender(gender) {
 }
 
 function showProfile(person) {
+    likedProfile(person);
     // Viser frem en person i cardSection
     cardSection.innerHTML = "";
     console.log("Viser person i cardSection");
@@ -66,6 +105,14 @@ function showProfile(person) {
     swipeLeft.addEventListener("click", () => {
         console.log("Jeg er ikke interessert!");
     });
+
+    function likedProfile(person) {
+        console.log("Kommer det en person hit?");
+        console.log(person);
+        // henter innhold fra localeStorage
+        likes -= 1;
+        checkLocalStorage(person);
+    }
 
     const swipeRight = document.createElement("button");
     swipeRight.innerHTML = "YES =>";
