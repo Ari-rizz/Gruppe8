@@ -1,5 +1,5 @@
 let peopleApi = []; // Her er vår database med alle objekter
-let sortedPeople = []; // Her er vår database med menn eller kvinner
+let sortedPeople = []; // Her er vår database med menn og/eller kvinner
 let likedprofiles = []; // Her legges våre favoritter
 let likes = 10; // Antall swipes
 let preferedGender = "";
