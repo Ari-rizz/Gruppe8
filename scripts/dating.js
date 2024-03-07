@@ -47,6 +47,36 @@ if (likes <= 0) {
         "Du har nå ikke plass til flere favoritter! For å legge til flere favoritter må du slette noen av de gamle."
     );
 }
+showLikedProfiles();
+function showLikedProfiles() {
+    const likedProfilesContainer = document.querySelector(
+        ".liked-profiles-container"
+    );
+    likedProfilesContainer.innerHTML = "";
+    likedprofiles.forEach((person, index) => {
+        const profileCard = document.createElement("div");
+        const profileCardImg = document.createElement("div");
+        profileCardImg.innerHTML = `<img src="${likedprofiles[index].picture.medium}" />`;
+        profileCardImg.style.width = "100px";
+        const profileCardText = document.createElement("div");
+        profileCardText.innerHTML = `<h3>${likedprofiles[index].name.first}</h3><p>${likedprofiles[index].location.city}</p>`;
+
+        profileCard.appendChild(profileCardImg);
+        profileCard.appendChild(profileCardText);
+
+        const editBtn = document.createElement("button");
+        editBtn.innerHTML = "Rediger";
+        editBtn.addEventListener("click", () => {
+            editPerson(person);
+        });
+        profileCard.appendChild(editBtn);
+        likedProfilesContainer.appendChild(profileCard);
+        // styler likedProfilesContainer
+        likedProfilesContainer.style.display = "flex";
+        likedProfilesContainer.style.flexwrap = "wrap";
+        likedProfilesContainer.style.alignitems = "space-between";
+    });
+}
 
 getRandomUsers();
 async function getRandomUsers() {
