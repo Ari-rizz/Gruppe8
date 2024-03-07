@@ -21,7 +21,7 @@ function checkLocalStorage() {
     }
 }
 function saveToLocalStorage(array) {
-    localStorage.setItem("savedLikedProfiles", JSON.stringify(array));
+   localStorage.setItem("savedLikedProfiles", JSON.stringify(array));
     showLikedProfiles();
 }
 
@@ -29,7 +29,7 @@ function saveToLocalStorage(array) {
 likes -= likedProfiles.length;
 
 if (likes <= 0) {
-    alert(
+   alert(
         "Du har nå ikke plass til flere favoritter! For å legge til flere favoritter må du slette noen av de gamle."
     );
 }
@@ -128,16 +128,26 @@ function createProfile(gender) {
     // });
 }
 
-function swipeLeftAndRigth(event) {
+function swipeLeftAndRight(event) {
     if (event.key === `ArrowLeft`) {
-        showUsers();
-    } else if (event.key === `ArrowRigth`) {
-        showUsers();
+        showNextProfile();
+    } else if (event.key === `ArrowRight`) {
+      saveToLocalStorage(likedProfiles); 
+      showNextProfile();
     }
+}
+function showNextProfile(){
+
+  cardSection.innerHTML = "";
+
+  const randomNumber = Math.floor(Math.random() * sortedPeople.length);
+  const nextProfile = sortedPeople[randomNumber];
+
+  selectGender(nextProfile);
 }
 // eventlistner for taster og for at det informasjon skal bli hentet inn med engang du laster inn siden
 window.addEventListener("load", getRandomUsers);
-window.addEventListener("keydown", swipeLeftAndRigth);
+window.addEventListener("keydown", swipeLeftAndRight);
 
 showLikedProfiles();
 function showLikedProfiles() {
