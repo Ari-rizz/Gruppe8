@@ -180,7 +180,6 @@ function editPerson(person) {
 }
 
 function deletePerson(person) {
-    console.log("Vi skal nå slette personen: ", person);
     // const index = likedProfiles.indexOf(person);
     likedProfiles.splice(person, 1);
     saveToLocalStorage(likedProfiles);
