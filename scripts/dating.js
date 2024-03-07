@@ -70,7 +70,7 @@ function selectGender(gender) {
     createProfile(chosenGender);
 }
 
-function showProfile(person) {
+function showProfile(person, index) {
     likedProfile(person);
     // Viser frem en person i cardSection
     cardSection.innerHTML = "";
@@ -115,7 +115,7 @@ function createProfile(gender) {
     console.log("Kommer det en person hit?");
     const randomNumber = Math.floor(Math.random() * sortedPeople.length);
     personToShow = sortedPeople[randomNumber];
-    showProfile(personToShow);
+    showProfile(personToShow, randomNumber);
     // people.forEach((profile) => {
     //     const profileCard = document.createElement("div");
     //     profileCard.classList.add("card");
@@ -145,38 +145,48 @@ function showLikedProfiles() {
         ".liked-profiles-container"
     );
     likedProfilesContainer.innerHTML = "";
+
     likedProfiles.forEach((person, index) => {
         const profileCard = document.createElement("div");
+
+        const infoDiv = document.createElement("div");
+        infoDiv.style.display = "flex";
+        infoDiv.style.width = "100%";
+
         const profileCardImg = document.createElement("div");
         profileCardImg.innerHTML = `<img src="${likedProfiles[index].picture.medium}" style="width: 150px" />`;
-        profileCardImg.style.width = "150px";
+
         const profileCardText = document.createElement("div");
         profileCardText.innerHTML = `<h3>${likedProfiles[index].name.first}</h3><p>${likedProfiles[index].location.city}</p>`;
+        profileCardText.style.backgroundColor = "black";
+        infoDiv.append(profileCardImg, profileCardText);
+        infoDiv.style.justifyContent = "space-around";
 
-        profileCard.appendChild(profileCardImg);
-        profileCard.appendChild(profileCardText);
+        const buttons = document.createElement("div");
+        buttons.style.display = "flex";
+        buttons.style.width = "100%";
+        buttons.style.justifyContent = "space-around";
 
         const editBtn = document.createElement("button");
         editBtn.innerHTML = "Rediger";
+        editBtn.style.width = "40%";
         editBtn.addEventListener("click", () => {
-            editPerson(person);
+            editPerson(index);
         });
         const deleteBtn = document.createElement("button");
         deleteBtn.innerHTML = "Slett";
+        deleteBtn.style.width = "40%";
         deleteBtn.addEventListener("click", () => {
             deletePerson(index);
         });
-        profileCard.appendChild(editBtn);
-        profileCard.appendChild(deleteBtn);
+        buttons.append(editBtn, deleteBtn);
+
+        profileCard.append(infoDiv, buttons);
         likedProfilesContainer.appendChild(profileCard);
-        // styler likedProfilesContainer
-        likedProfilesContainer.style.display = "flex";
-        likedProfilesContainer.style.flexwrap = "wrap";
-        likedProfilesContainer.style.justifycontent = "space-between";
     });
 }
-function editPerson(person) {
-    console.log("Vi skal nå redigere personen: ", person);
+function editPerson(index) {
+    console.log("Vi skal nå redigere index: ", index);
 }
 
 function deletePerson(person) {
