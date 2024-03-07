@@ -21,7 +21,7 @@ function checkLocalStorage() {
     }
 }
 function saveToLocalStorage(array) {
-   localStorage.setItem("savedLikedProfiles", JSON.stringify(array));
+    localStorage.setItem("savedLikedProfiles", JSON.stringify(array));
     showLikedProfiles();
 }
 
@@ -29,7 +29,7 @@ function saveToLocalStorage(array) {
 likes -= likedProfiles.length;
 
 if (likes <= 0) {
-   alert(
+    alert(
         "Du har nå ikke plass til flere favoritter! For å legge til flere favoritter må du slette noen av de gamle."
     );
 }
@@ -116,34 +116,28 @@ function createProfile(gender) {
     const randomNumber = Math.floor(Math.random() * sortedPeople.length);
     personToShow = sortedPeople[randomNumber];
     showProfile(personToShow);
-    // people.forEach((profile) => {
-    //     const profileCard = document.createElement("div");
-    //     profileCard.classList.add("card");
-    //     profileCard.innerHTML = `
-    //   <img src="${profile.picture}" alt="${profile.name.first}'s profile picture">
-    //   <h4>${profile.name.first}</h4>
-    //   <p>${profile.location.city}, ${profile.location.country}</p>
-    // `;
-    //     cardSection.appendChild(profileCard);
-    // });
 }
 
 function swipeLeftAndRight(event) {
+
     if (event.key === `ArrowLeft`) {
         showNextProfile();
     } else if (event.key === `ArrowRight`) {
-      saveToLocalStorage(likedProfiles); 
+      //saveToLocalStorage();
       showNextProfile();
+      localStorage.clear
     }
 }
 function showNextProfile(){
 
-  cardSection.innerHTML = "";
-
+  cardSection.innerHTML ="";
   const randomNumber = Math.floor(Math.random() * sortedPeople.length);
   const nextProfile = sortedPeople[randomNumber];
-
-  selectGender(nextProfile);
+  if(nextProfile){
+  showProfile(nextProfile);
+} else{
+  console.log("ingen å vise")
+}
 }
 // eventlistner for taster og for at det informasjon skal bli hentet inn med engang du laster inn siden
 window.addEventListener("load", getRandomUsers);
@@ -193,6 +187,6 @@ function deletePerson(person) {
     console.log("Vi skal nå slette personen: ", person);
     // const index = likedProfiles.indexOf(person);
     likedProfiles.splice(person, 1);
-    saveToLocalStorage(likedProfiles);
+    //saveToLocalStorage(likedProfiles);
     showLikedProfiles();
 }
