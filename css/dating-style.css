@@ -15,6 +15,7 @@ body {
     flex-direction: column;
     font-family: "Poppins", sans-serif;
     color: #ffffff;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -71,15 +72,24 @@ img {
 }
 .liked-profiles-container {
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-top: 25px;
+    padding: 5px;
+    width: 1500px;
 }
-.profileCard {
-    background-color: black;
+.liked-card {
     display: flex;
     flex-direction: column;
     width: 300px;
-    padding: 25px;
-    margin: 35px;
+    height: 200px;
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(168, 166, 166, 0.4);
+    border-radius: 5px;
+    margin: 10px;
+}
+.infoDiv {
 }

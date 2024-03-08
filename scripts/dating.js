@@ -22,6 +22,7 @@ function checkLocalStorage() {
 }
 function saveToLocalStorage(array) {
     localStorage.setItem("savedLikedProfiles", JSON.stringify(array));
+    console.log("Lagret til localStorage!");
     showLikedProfiles();
 }
 
@@ -86,33 +87,32 @@ function showProfile(person, index) {
     nameDiv.innerHTML += `<p>${person.location.city}</p>`;
     profileCard.appendChild(nameDiv);
 
+    const btnDiv = document.createElement("div");
+    btnDiv.style.display = "flex";
     const swipeLeft = document.createElement("button");
     swipeLeft.innerHTML = "<= NOPE";
     swipeLeft.addEventListener("click", () => {
         console.log("Jeg er ikke interessert!");
     });
-
-    function likedProfile(person) {
-        console.log("Kommer det en person hit?");
-        console.log(person);
-        // henter innhold fra localeStorage
-        likes -= 1;
-        likedProfiles.push(person);
-        saveToLocalStorage(likedProfiles);
-    }
-
     const swipeRight = document.createElement("button");
     swipeRight.innerHTML = "YES =>";
     swipeRight.addEventListener("click", () => {
         console.log("Jeg er interessert!");
     });
+    btnDiv.append(swipeLeft, swipeRight);
     profileCard.appendChild(swipeLeft);
     profileCard.appendChild(swipeRight);
     cardSection.appendChild(profileCard);
 }
+function likedProfile(person) {
+    console.log(person);
+    // henter innhold fra localeStorage
+    likes -= 1;
+    likedProfiles.push(person);
+    saveToLocalStorage(likedProfiles);
+}
 // laget createProfiles på samme måte som vi lagde createDogProfileCard
-function createProfile(gender) {
-    console.log("Kommer det en person hit?");
+function createProfile() {
     const randomNumber = Math.floor(Math.random() * sortedPeople.length);
     personToShow = sortedPeople[randomNumber];
     showProfile(personToShow);
@@ -149,19 +149,19 @@ function showLikedProfiles() {
     likedProfilesContainer.innerHTML = "";
 
     likedProfiles.forEach((person, index) => {
-        const profileCard = document.createElement("div");
+        const likedCard = document.createElement("div");
+        likedCard.classList.add("liked-card");
 
         const infoDiv = document.createElement("div");
         infoDiv.style.display = "flex";
-        infoDiv.style.width = "100%";
 
-        const profileCardImg = document.createElement("div");
-        profileCardImg.innerHTML = `<img src="${likedProfiles[index].picture.medium}" style="width: 150px" />`;
+        const likedCardImg = document.createElement("div");
+        likedCardImg.innerHTML = `<img src="${likedProfiles[index].picture.medium}" style="width: 150px" />`;
 
-        const profileCardText = document.createElement("div");
-        profileCardText.innerHTML = `<h3>${likedProfiles[index].name.first}</h3><p>${likedProfiles[index].location.city}</p>`;
-        profileCardText.style.backgroundColor = "black";
-        infoDiv.append(profileCardImg, profileCardText);
+        const likedCardText = document.createElement("div");
+        likedCardText.innerHTML = `<h3>${likedProfiles[index].name.first}</h3><p>${likedProfiles[index].location.city}</p>`;
+        // profileCardText.style.backgroundColor = "black";
+        infoDiv.append(likedCardImg, likedCardText);
         infoDiv.style.justifyContent = "space-around";
 
         const buttons = document.createElement("div");
@@ -183,8 +183,8 @@ function showLikedProfiles() {
         });
         buttons.append(editBtn, deleteBtn);
 
-        profileCard.append(infoDiv, buttons);
-        likedProfilesContainer.appendChild(profileCard);
+        likedCard.append(infoDiv, buttons);
+        likedProfilesContainer.appendChild(likedCard);
     });
 }
 function editPerson(index) {
@@ -194,6 +194,6 @@ function editPerson(index) {
 function deletePerson(person) {
     // const index = likedProfiles.indexOf(person);
     likedProfiles.splice(person, 1);
-    //saveToLocalStorage(likedProfiles);
+    saveToLocalStorage(likedProfiles);
     showLikedProfiles();
 }
