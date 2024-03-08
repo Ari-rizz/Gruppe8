@@ -40,7 +40,6 @@ function updateSwipes() {
         <h3>Gjenstående likes: ${likes}</h3>
        <h3>Gjestående swipes ${swipes}</h3>
        `;
-    }
     if (swipes <= 0) {
         let answer;
         while (answer !== "j") {
@@ -59,7 +58,7 @@ getRandomUsers();
 async function getRandomUsers() {
     try {
         const response = await fetch(
-            "https://randomuser.me/api/?results=100&nat=no&inc=picture,gender,name,location,dob"
+            "https://randomuser.me/api/?results=150&nat=no&inc=picture,gender,name,location,dob"
         );
         const data = await response.json();
         people = data.results;
