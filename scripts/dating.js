@@ -23,11 +23,19 @@ function checkLocalStorage() {
 function saveToLocalStorage(array) {
     localStorage.setItem("savedLikedProfiles", JSON.stringify(array));
     console.log("Lagret til localStorage!");
+    updateLikesLeft();
     showLikedProfiles();
 }
 
 // Justerer antall likes i forhold til likedProfiles
+
 likes -= likedProfiles.length;
+updateLikesLeft();
+function updateLikesLeft() {
+    let score = document.querySelector("#score");
+    score.innerHTML = `<h2>Du har ${likes} antall likes igjen!</h2>`;
+    return;
+}
 
 if (likes <= 0) {
     alert(
@@ -75,7 +83,6 @@ function showProfile(person, index) {
     likedProfile(person);
     // Viser frem en person i cardSection
     cardSection.innerHTML = "";
-    console.log("Viser person i cardSection");
     const profileCard = document.createElement("div");
     profileCard.innerHTML = "";
     profileCard.classList.add("card");

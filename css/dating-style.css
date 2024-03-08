@@ -15,7 +15,12 @@ body {
     flex-direction: column;
     font-family: "Poppins", sans-serif;
     color: #ffffff;
+    justify-content: center;
+    align-items: center;
+}
+main {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -58,7 +63,8 @@ header {
     background-color: #cc7b9f;
 }
 
-.card:hover {
+.card:hover,
+.liked-card:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
 }
 
@@ -83,12 +89,12 @@ img {
 .liked-card {
     display: flex;
     flex-direction: column;
-    width: 300px;
-    height: 200px;
+    width: 270px;
     display: flex;
     justify-content: space-around;
     background-color: rgb(168, 166, 166, 0.4);
     border-radius: 5px;
+    padding: 4px;
     margin: 10px;
 }
 .infoDiv {
