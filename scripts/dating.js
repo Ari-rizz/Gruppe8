@@ -25,31 +25,45 @@ function checkLocalStorage() {
 function saveToLocalStorage(array) {
     localStorage.setItem("savedLikedProfiles", JSON.stringify(array));
     console.log("Lagret til localStorage!");
-    updateLikesLeft(); // Antall likes vi har til overs
-    createProfile();
+    updateSwipes(); // Antall likes vi har til overs
+    // createProfile();
     showLikedProfiles();
 }
 
 // Justerer antall likes i forhold til likedProfiles
 
 likes -= likedProfiles.length;
-updateLikesLeft();
-function updateLikesLeft() {
+updateSwipes();
+function updateSwipes() {
     let score = document.querySelector("#score");
-    score.innerHTML = `<h2>Du har ${likes} antall likes igjen!</h2>`;
+    score.innerHTML = `
+        <h3>Gjenstående likes: ${likes}</h3>
+       <h3>Gjestående swipes ${swipes}</h3>
+       `;
     if (likes <= 0) {
         alert(
             "Du har nå ikke plass til flere favoritter! For å legge til flere favoritter må du slette noen av de gamle."
         );
     }
-    return;
+    if (swipes <= 0) {
+        let answer;
+        while (answer !== "j") {
+            answer = prompt(
+                "Du har ikke flere swipes igjen! Vil du swipe mer? j/n"
+            );
+            if (answer === "j") {
+                swipes = 10;
+                updateSwipes();
+            }
+        }
+    }
 }
 
 getRandomUsers();
 async function getRandomUsers() {
     try {
         const response = await fetch(
-            "https://randomuser.me/api/?results=50&nat=no&inc=picture,gender,name,location"
+            "https://randomuser.me/api/?results=100&nat=no&inc=picture,gender,name,location"
         );
         const data = await response.json();
         people = data.results;
@@ -107,17 +121,16 @@ function showProfile(person, index) {
     const swipeLeft = document.createElement("button");
     swipeLeft.innerHTML = "<= NOPE";
     swipeLeft.addEventListener("click", () => {
-        console.log("Jeg er ikke interessert!");
+        swipes--;
+        updateSwipes();
         removeProfile(index);
         createProfile();
     });
     const swipeRight = document.createElement("button");
-    if (likes <= 0) {
-    }
     swipeRight.innerHTML = "YES =>";
     swipeRight.addEventListener("click", () => {
-        console.log("Jeg er interessert!");
         likedProfile(person);
+        createProfile();
     });
     btnDiv.append(swipeLeft, swipeRight);
     profileCard.appendChild(swipeLeft);
@@ -127,29 +140,25 @@ function showProfile(person, index) {
 function likedProfile(person) {
     console.log(person);
     // henter innhold fra localeStorage
-    likes -= 1;
+    swipes--;
+    likes--;
+    updateSwipes();
     likedProfiles.push(person);
     saveToLocalStorage(likedProfiles);
 }
 
 function swipeLeftAndRight(event) {
     if (event.key === `ArrowLeft`) {
+        swipes--;
+        likes--;
+        updateSwipes();
         removeProfile(personToShowIndex); //fjerner perosnen som bil swipet til venstre
         createProfile();
     } else if (event.key === `ArrowRight`) {
         console.log(personToShow);
+        updateSwipes();
         likedProfile(personToShow);
         createProfile();
-    }
-}
-function showNextProfile() {
-    cardSection.innerHTML = "";
-    const randomNumber = Math.floor(Math.random() * sortedPeople.length);
-    const nextProfile = sortedPeople[randomNumber];
-    if (nextProfile) {
-        createProfile(nextProfile);
-    } else {
-        console.log("ingen å vise");
     }
 }
 
@@ -219,12 +228,11 @@ function removeProfile(index) {
     // }
 }
 function deletePerson(person) {
-    // Mottar index som skal slettes
+    // Mottar index som skal slettes fra likedProfiles
     console.log(person);
     // const index = likedProfiles.indexOf(person);
     likedProfiles.splice(person, 1);
     likes++;
     saveToLocalStorage(likedProfiles);
-    createProfile();
     showLikedProfiles();
 }
