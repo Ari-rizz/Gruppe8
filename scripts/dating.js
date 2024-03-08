@@ -115,29 +115,31 @@ function createProfile(gender) {
     console.log("Kommer det en person hit?");
     const randomNumber = Math.floor(Math.random() * sortedPeople.length);
     personToShow = sortedPeople[randomNumber];
-    showProfile(personToShow, randomNumber);
-    // people.forEach((profile) => {
-    //     const profileCard = document.createElement("div");
-    //     profileCard.classList.add("card");
-    //     profileCard.innerHTML = `
-    //   <img src="${profile.picture}" alt="${profile.name.first}'s profile picture">
-    //   <h4>${profile.name.first}</h4>
-    //   <p>${profile.location.city}, ${profile.location.country}</p>
-    // `;
-    //     cardSection.appendChild(profileCard);
-    // });
+    showProfile(personToShow);
 }
 
-function swipeLeftAndRigth(event) {
+function swipeLeftAndRight(event) {
     if (event.key === `ArrowLeft`) {
-        showUsers();
-    } else if (event.key === `ArrowRigth`) {
-        showUsers();
+        showNextProfile();
+    } else if (event.key === `ArrowRight`) {
+        //saveToLocalStorage();
+        showNextProfile();
+        localStorage.clear;
+    }
+}
+function showNextProfile() {
+    cardSection.innerHTML = "";
+    const randomNumber = Math.floor(Math.random() * sortedPeople.length);
+    const nextProfile = sortedPeople[randomNumber];
+    if (nextProfile) {
+        showProfile(nextProfile);
+    } else {
+        console.log("ingen å vise");
     }
 }
 // eventlistner for taster og for at det informasjon skal bli hentet inn med engang du laster inn siden
 window.addEventListener("load", getRandomUsers);
-window.addEventListener("keydown", swipeLeftAndRigth);
+window.addEventListener("keydown", swipeLeftAndRight);
 
 showLikedProfiles();
 function showLikedProfiles() {
@@ -192,6 +194,6 @@ function editPerson(index) {
 function deletePerson(person) {
     // const index = likedProfiles.indexOf(person);
     likedProfiles.splice(person, 1);
-    saveToLocalStorage(likedProfiles);
+    //saveToLocalStorage(likedProfiles);
     showLikedProfiles();
 }
