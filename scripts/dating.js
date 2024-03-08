@@ -119,6 +119,7 @@ function showProfile(person, index) {
     profileCard.appendChild(imgDiv);
     const nameDiv = document.createElement("div");
     nameDiv.innerHTML = `<h4>${person.name.first}</h4>`;
+  //  nameDiv.innerHTML += `<h5>${person.dob.age}</h5>`;
     nameDiv.innerHTML += `<p>${person.location.city}</p>`;
     profileCard.appendChild(nameDiv);
 
@@ -159,13 +160,13 @@ function swipeLeftAndRight(event) {
         swipes--;
         likes--;
         updateSwipes();
-        removeProfile(personToShowIndex); //fjerner perosnen som bil swipet til venstre
-        createProfile();
+        removeProfile(personToShowIndex); //fjerner perosnen som blir swipet til venstre
+        createProfile();//henter ny profil
     } else if (event.key === `ArrowRight`) {
         console.log(personToShow);
         updateSwipes();
-        likedProfile(personToShow);
-        createProfile();
+        likedProfile(personToShow);//legges til i localStorage
+        createProfile();//henter ny profil 
     }
 }
 
@@ -191,7 +192,9 @@ function showLikedProfiles() {
         likedCardImg.innerHTML = `<img src="${likedProfiles[index].picture.medium}" />`;
 
         const likedCardText = document.createElement("div");
-        likedCardText.innerHTML = `<h3>${likedProfiles[index].name.first}</h3><p>${likedProfiles[index].location.city}</p>`;
+        likedCardText.innerHTML = `<h3>${likedProfiles[index].name.first}</h3>`;
+     //   likedCardText.innerHTML += `<h4>${likedProfiles[index].dob.date.age}</h4>`;
+        likedCardText.innerHTML += `<p>${likedProfiles[index].location.city}</p>`;
         infoDiv.append(likedCardImg, likedCardText);
         infoDiv.style.justifyContent = "space-around";
 
@@ -219,6 +222,19 @@ function showLikedProfiles() {
     });
 }
 function editPerson(index) {
+  const profileToEdit = likedProfiles[index];
+//Spør brukeren om ny info
+  const editName = prompt("Rediger navnet her", profileToEdit.name.first)
+ // const editAge = prompt("Rediger alderen her", profileToEdit.dob.age)
+  const editLocation = prompt("Rediger sted her", profileToEdit.location.city)
+//Redigere den nye infoen
+  profileToEdit.name.first = editName;
+  //profileToEdit.dob.age = parseInt(editAge);
+  profileToEdit.location.city = editLocation
+// lagrer den nye informasjonen i arrayet til localStorage
+saveToLocalStorage(likedProfiles);
+//oppdaterer profilen
+showLikedProfiles();
     console.log("Vi skal nå redigere index: ", index);
 }
 // Vi har to slettefunksjoner, for databasen, og for likte profiler!
