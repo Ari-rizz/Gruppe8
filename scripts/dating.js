@@ -12,14 +12,14 @@ bothBtn = document.querySelector("#bothBtn");
 cardSection = document.querySelector(".card-section");
 
 // Sjekker og evt henter inn data fra localeStorage
-checkLocalStorage();
-function checkLocalStorage() {
-    if (localStorage.getItem("savedLikedProfiles")) {
-        likedProfiles = JSON.parse(localStorage.getItem("savedLikedProfiles"));
-    } else {
-        console.log("Ingenting i localeStorage!");
-    }
-}
+//checkLocalStorage();
+//function checkLocalStorage() {
+ //   if (localStorage.getItem("savedLikedProfiles")) {
+  //      likedProfiles = JSON.parse(localStorage.getItem("savedLikedProfiles"));
+  //  } else {
+  //      console.log("Ingenting i localeStorage!");
+   // }
+//}
 function saveToLocalStorage(array) {
     localStorage.setItem("savedLikedProfiles", JSON.stringify(array));
     console.log("Lagret til localStorage!");
@@ -127,11 +127,12 @@ function createProfile() {
 
 function swipeLeftAndRight(event) {
     if (event.key === `ArrowLeft`) {
+      removeProfile();//fjerner perosnen som bil swipet til venstre
         showNextProfile();
+
     } else if (event.key === `ArrowRight`) {
-        //saveToLocalStorage();
+        saveToLocalStorage();
         showNextProfile();
-        localStorage.clear;
     }
 }
 function showNextProfile() {
@@ -139,11 +140,21 @@ function showNextProfile() {
     const randomNumber = Math.floor(Math.random() * sortedPeople.length);
     const nextProfile = sortedPeople[randomNumber];
     if (nextProfile) {
-        showProfile(nextProfile);
+        createProfile(nextProfile);
     } else {
         console.log("ingen å vise");
     }
 }
+
+function removeProfile(){
+  const index = likedProfiles.findIndex(profile => profile === personToShow);
+
+  if(index !== -1){
+    likedProfiles.splice(index, 1);
+    saveToLocalStorage();
+  }
+}
+
 // eventlistner for taster og for at det informasjon skal bli hentet inn med engang du laster inn siden
 window.addEventListener("load", getRandomUsers);
 window.addEventListener("keydown", swipeLeftAndRight);
