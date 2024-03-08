@@ -104,12 +104,18 @@ function createProfile() {
 // Viser frem tilfeldig person å swipe på
 function showProfile(person, index) {
     // Viser frem en person i cardSection
+    let genderColor;
+    if (person.gender === "female") {
+        genderColor = "lightpink";
+    } else {
+        genderColor = "lightblue";
+    }
     cardSection.innerHTML = "";
     const profileCard = document.createElement("div");
-    // profileCard.innerHTML = "";
     profileCard.classList.add("card");
+    profileCard.style.backgroundColor = genderColor;
     const imgDiv = document.createElement("div");
-    imgDiv.innerHTML = `<img src="${person.picture.large}" alt="${person.name.first}'s profile picture">`;
+    imgDiv.innerHTML = `<img style="width: 200px" src="${person.picture.large}" alt="${person.name.first}'s profile picture">`;
     profileCard.appendChild(imgDiv);
     const nameDiv = document.createElement("div");
     nameDiv.innerHTML = `<h4>${person.name.first}</h4>`;
@@ -117,9 +123,10 @@ function showProfile(person, index) {
     profileCard.appendChild(nameDiv);
 
     const btnDiv = document.createElement("div");
-    btnDiv.style.display = "flex";
+    // btnDiv.style.display = "flex";
     const swipeLeft = document.createElement("button");
     swipeLeft.innerHTML = "<= NOPE";
+    swipeLeft.style.height = "30px";
     swipeLeft.addEventListener("click", () => {
         swipes--;
         updateSwipes();
@@ -128,13 +135,13 @@ function showProfile(person, index) {
     });
     const swipeRight = document.createElement("button");
     swipeRight.innerHTML = "YES =>";
+    swipeRight.style.height = "30px";
     swipeRight.addEventListener("click", () => {
         likedProfile(person);
         createProfile();
     });
     btnDiv.append(swipeLeft, swipeRight);
-    profileCard.appendChild(swipeLeft);
-    profileCard.appendChild(swipeRight);
+    profileCard.append(btnDiv);
     cardSection.appendChild(profileCard);
 }
 function likedProfile(person) {
