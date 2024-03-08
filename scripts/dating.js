@@ -103,7 +103,7 @@ function showProfile(person, index) {
     if (person.gender === "female") {
         genderColor = "lightpink";
     } else {
-        genderColor = "lightblue";
+        genderColor = "blue";
     }
     cardSection.innerHTML = "";
     const profileCard = document.createElement("div");
@@ -184,8 +184,14 @@ function showLikedProfiles() {
     likedProfilesContainer.innerHTML = "";
 
     likedProfiles.forEach((person, index) => {
+        if (person.gender === "female") {
+            genderColor = "rgb(204, 123, 159)";
+        } else {
+            genderColor = "rgb(0, 0, 255)";
+        }
         const likedCard = document.createElement("div");
         likedCard.classList.add("liked-card");
+        likedCard.style.backgroundColor = genderColor;
 
         const infoDiv = document.createElement("div");
         infoDiv.style.display = "flex";

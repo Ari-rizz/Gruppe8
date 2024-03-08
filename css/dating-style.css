@@ -94,8 +94,8 @@ img {
 .liked-card {
     display: flex;
     flex-direction: column;
-    background-color: rgb(87, 87, 87, 0.4);
     width: 270px;
+    background-color: #cc7b9f;
     display: flex;
     justify-content: space-around;
     border-radius: 5px;
