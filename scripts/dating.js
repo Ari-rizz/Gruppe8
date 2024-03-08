@@ -227,14 +227,14 @@ function editPerson(index) {
     const profileToEdit = likedProfiles[index];
     //Spør brukeren om ny info
     const editName = prompt("Rediger navnet her", profileToEdit.name.first);
-    // const editAge = prompt("Rediger alderen her", profileToEdit.dob.age)
+    const editAge = prompt("Rediger alderen her", profileToEdit.dob.age);
     const editLocation = prompt(
         "Rediger sted her",
         profileToEdit.location.city
     );
     //Redigere den nye infoen
     profileToEdit.name.first = editName;
-    //profileToEdit.dob.age = parseInt(editAge);
+    profileToEdit.dob.age = parseInt(editAge);
     profileToEdit.location.city = editLocation;
     // lagrer den nye informasjonen i arrayet til localStorage
     saveToLocalStorage(likedProfiles);
