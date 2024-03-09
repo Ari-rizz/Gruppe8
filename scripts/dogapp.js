@@ -156,7 +156,6 @@ function createDogsProfileCard(array, delBtn) {
         chatButton.classList.add("chatBtn");
         chatButton.textContent = "Chat";
         chatButton.addEventListener("click", () => {
-            console.log("click");
             dogChat(dog);
         });
         if (delBtn === true) {
@@ -259,6 +258,7 @@ function dogChat(dog) {
     chatContainer.style.right = "200px";
 
     const topChatBar = document.createElement("div");
+    topChatBar.style.display = "flex";
     topChatBar.style.marginBottom = "auto";
     topChatBar.textContent = "Velkommen til dog-chat!";
     const closeChatBtn = document.createElement("button");
@@ -294,7 +294,7 @@ function dogChat(dog) {
     answerField.style.display = "flex";
     answerField.style.marginTop = "auto";
     const inputField = document.createElement("input");
-    inputField.style.width = "70%";
+    inputField.style.width = "80%";
     const answerBtn = document.createElement("button");
     answerBtn.textContent = "Svar";
     answerBtn.addEventListener("click", () => {
