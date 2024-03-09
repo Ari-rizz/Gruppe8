@@ -101,7 +101,7 @@ function showProfile(person, index) {
     // Viser frem en person i cardSection
     let genderColor;
     if (person.gender === "female") {
-        genderColor = "lightpink";
+        genderColor = "rgb(204, 123, 159)";
     } else {
         genderColor = "blue";
     }
