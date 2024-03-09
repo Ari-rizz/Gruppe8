@@ -258,6 +258,18 @@ function dogChat(dog) {
     chatContainer.style.bottom = "0px";
     chatContainer.style.right = "200px";
 
+    const topChatBar = document.createElement("div");
+    topChatBar.style.marginBottom = "auto";
+    topChatBar.textContent = "Velkommen til dog-chat!";
+    const closeChatBtn = document.createElement("button");
+    closeChatBtn.textContent = " X ";
+    closeChatBtn.style.marginLeft = "auto";
+    closeChatBtn.addEventListener("click", () => {
+        chatBox.remove();
+    });
+
+    topChatBar.append(closeChatBtn);
+
     const chatBox = document.createElement("div");
     chatBox.style.display = "flex";
     chatBox.style.flexDirection = "column";
@@ -292,6 +304,6 @@ function dogChat(dog) {
 
     answerField.append(inputField, answerBtn);
 
-    chatBox.append(nameBox, chatWindow, answerField);
+    chatBox.append(topChatBar, nameBox, chatWindow, answerField);
     chatContainer.appendChild(chatBox);
 }
