@@ -77,13 +77,97 @@ function createDogsProfileCard() {
         const chatButton = document.createElement("button");
         chatButton.textContent = "Chat";
         chatButton.addEventListener("click", () => {
-            //Chat funskjon her
+            // 
+            toggleChatBox
         });
         dogCard.appendChild(chatButton);
 
         cardSection.appendChild(dogCard);
     });
+    
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Henter nødvendige elementer med querySelector
+    const dogCard = document.querySelector('#dogCard');
+    const openChatButton = document.querySelector('#openChat');
+    const closeChatButton = document.querySelector('#closeChat');
+    const sendMessageButton = document.querySelector('#sendMessage');
+    const messageInput = document.querySelector('#messageInput');
+    const messagesContainer = document.querySelector('#messages');
+  
+    // Oppretter chat-knappen og legger den til i dogCard-elementet
+    const chatButton = document.createElement('button');
+    chatButton.textContent = 'Chat';
+    chatButton.addEventListener('click', toggleChatBox);
+    dogCard.appendChild(chatButton);
+  
+    // Oppretter chatboksens innhold
+    const chatBox = document.createElement('div');
+    chatBox.id = 'chatBox';
+    chatBox.classList.add('chat-box');
+    chatBox.style.display = 'none';
+  
+    // Funksjon for å åpne eller lukke chatboksen
+    function toggleChatBox() {
+      if (chatBox.style.display === 'none') {
+        chatBox.style.display = 'block';
+        addRandomGreeting();
+      } else {
+        chatBox.style.display = 'none';
+      }
+    }
+  
+    // Legg til klikkhendelse for å lukke chatboksen
+    closeChatButton.addEventListener('click', function() {
+      chatBox.style.display = 'none';
+    });
+  
+    // Array for å lagre meldinger
+    let messages = [];
+  
+    // Legg til klikkhendelse for å sende melding
+    sendMessageButton.addEventListener('click', function() {
+      const messageText = messageInput.value.trim();
+      if (messageText !== '') {
+        messages.push(messageText);
+        displayMessages();
+        messageInput.value = '';
+      }
+    });
+  
+    // Funksjon for å vise meldinger i chatboksen
+    function displayMessages() {
+      messagesContainer.innerHTML = '';
+      messages.forEach((message, index) => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        messageElement.textContent = message;
+  
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Slett';
+        deleteButton.addEventListener('click', function() {
+          messages.splice(index, 1);
+          displayMessages();
+        });
+  
+        messageElement.appendChild(deleteButton);
+        messagesContainer.appendChild(messageElement);
+      });
+    }
+  
+    // Funksjon for å legge til en tilfeldig hilsen
+    function addRandomGreeting() {
+      const greetings = ['Hei!', 'Hallo!', 'God dag!', 'Hei!'];
+      const randomIndex = Math.floor(Math.random() * greetings.length);
+      const randomGreeting = greetings[randomIndex];
+      const greetingElement = document.createElement('div');
+      greetingElement.textContent = randomGreeting;
+      messagesContainer.appendChild(greetingElement);
+    }
+  });
+  
+
 // async function createDogsProfileCard() {
 //     try {
 //         const dogImg = await getDogs();
