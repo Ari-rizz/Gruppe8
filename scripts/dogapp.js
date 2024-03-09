@@ -261,6 +261,7 @@ function dogChat(dog) {
     topChatBar.style.display = "flex";
     topChatBar.style.marginBottom = "auto";
     topChatBar.textContent = "Velkommen til dog-chat!";
+    topChatBar.style.backgroundColor = "lightgrey";
     const closeChatBtn = document.createElement("button");
     closeChatBtn.textContent = " X ";
     closeChatBtn.style.marginLeft = "auto";
