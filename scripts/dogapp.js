@@ -247,3 +247,7 @@ function showGreeting(dogCard) {
     } // hvis ingen greeting så blir det opprettet en ny
 }
 //merget
+
+function dogChat() {
+    // Lager en chat-boks nede i høyre hjørne, som dukker opp når vi trykker på chat-knappen.
+}
