@@ -249,7 +249,13 @@ function showGreeting(dogCard) {
         greetingsBubble.style.textAlign = "center";
         greetingsBubble.style.borderRadius = "45%";
         dogCard.appendChild(greetingsBubble);
-    } // hvis ingen greeting så blir det opprettet en ny
+//fjerner greeting etter 3 sekunder
+    setTimeout(() => {
+        greetingsBubble.remove();
+    }, 3000);
+     
+    } 
+    // hvis ingen greeting så blir det opprettet en ny
 }
 //merget
 
