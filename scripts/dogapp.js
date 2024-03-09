@@ -240,6 +240,7 @@ function showGreeting(dogCard) {
         greetingsBubble.classList.add("greetings-bubble");
         greetingsBubble.textContent = getRandomGreeting();
         greetingsBubble.style.position = "absolute";
+        greetingsBubble.style.bottom = "150px";
         greetingsBubble.style.background = "white";
         greetingsBubble.style.color = "black";
         greetingsBubble.style.height = "40px";
