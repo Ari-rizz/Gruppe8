@@ -257,14 +257,18 @@ function dogChat(dog) {
     chatContainer.style.position = "fixed";
     chatContainer.style.bottom = "0px";
     chatContainer.style.right = "200px";
-    chatContainer.style.backgroundColor = "white";
+    chatContainer.style.marginRight = "10px";
 
-    let chatBox = document.createElement("div");
+    const chatBox = document.createElement("div");
     chatBox.style.display = "flex";
     chatBox.style.flexDirection = "column";
+    chatBox.style.marginTop = "auto";
+    chatBox.style.backgroundColor = "white";
     chatBox.style.color = "black";
     chatBox.style.height = "100%";
     chatBox.style.width = "100%";
+
+    // const
 
     const nameBox = document.createElement("div");
     nameBox.width = "100%";
@@ -277,13 +281,13 @@ function dogChat(dog) {
 
     const answerField = document.createElement("div");
     answerField.style.display = "flex";
-
+    answerField.style.marginTop = "auto";
     const inputField = document.createElement("input");
     inputField.style.width = "70%";
     const answerBtn = document.createElement("button");
     answerBtn.textContent = "Svar";
     answerBtn.addEventListener("click", () => {
-        chatWindow.innerHTML += inputField.value;
+        chatWindow.innerHTML += `${inputField.value}<br>`;
         inputField.value = "";
     });
 
