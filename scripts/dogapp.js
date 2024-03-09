@@ -251,7 +251,6 @@ function showGreeting(dogCard) {
 //merget
 
 function dogChat(dog) {
-    console.log(dog);
     // Lager en chat-boks nede i høyre hjørne, som dukker opp når vi trykker på chat-knappen.
     let chatContainer = document.querySelector(".chat-container");
     chatContainer.style.display = "flex";
