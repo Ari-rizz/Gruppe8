@@ -75,7 +75,7 @@ async function fetchBreedDogs() {
                     `https://dog.ceo/api/breed/${breed.breed}/images/random/${randomNumber}`
                 );
                 const data = await response.json();
-                setTimeout(buildDogsImages(data.message), 70);
+                setTimeout(buildDogsImages(data.message), 60);
             } catch (error) {
                 console.log("Kunne ikke laste inn hundedata: " + error);
             }
@@ -96,7 +96,7 @@ async function fetchRandomUsers() {
         );
         const data = await response.json();
         usersApi = data.results;
-        setTimeout(makeDogsArray, 70);
+        setTimeout(makeDogsArray, 60);
     } catch (error) {
         console.log("Kunne ikke laste inn brukerdata: " + error);
     }
