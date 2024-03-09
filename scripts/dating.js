@@ -24,14 +24,11 @@ function checkLocalStorage() {
 }
 function saveToLocalStorage(array) {
     localStorage.setItem("savedLikedProfiles", JSON.stringify(array));
-    console.log("Lagret til localStorage!");
-    updateSwipes(); // Antall likes vi har til overs
-    // createProfile();
+    updateSwipes();
     showLikedProfiles();
 }
 
 // Justerer antall likes i forhold til likedProfiles
-
 likes -= likedProfiles.length;
 updateSwipes();
 function updateSwipes() {
@@ -89,7 +86,7 @@ function selectGender(gender) {
     }
     createProfile(chosenGender);
 }
-// laget createProfiles på samme måte som vi lagde createDogProfileCard
+
 function createProfile() {
     const randomNumber = Math.floor(Math.random() * sortedPeople.length);
     personToShow = sortedPeople[randomNumber];
@@ -98,7 +95,6 @@ function createProfile() {
 }
 // Viser frem tilfeldig person å swipe på
 function showProfile(person, index) {
-    // Viser frem en person i cardSection
     let genderColor;
     if (person.gender === "female") {
         genderColor = "rgb(204, 123, 159)";
@@ -119,8 +115,6 @@ function showProfile(person, index) {
     profileCard.appendChild(nameDiv);
 
     const btnDiv = document.createElement("div");
-    // btnDiv.style.display = "flex";
-    // Swipe left for NO
     const swipeLeft = document.createElement("button");
     swipeLeft.innerHTML = "<= NOPE";
     swipeLeft.style.height = "30px";
@@ -130,7 +124,6 @@ function showProfile(person, index) {
         removeProfile(index);
         createProfile();
     });
-    // Swipe right for YES!
     const swipeRight = document.createElement("button");
     swipeRight.innerHTML = "YES =>";
     swipeRight.style.height = "30px";
@@ -161,25 +154,21 @@ function swipeLeftAndRight(event) {
             alert("Du må slette en favoritt før du kan legge til flere!");
         } else {
             swipes--;
-            console.log(swipes);
-            console.log(likes);
             updateSwipes();
-            removeProfile(personToShowIndex); //fjerner perosnen som blir swipet til venstre
-            createProfile(); //henter ny profil
+            removeProfile(personToShowIndex);
+            createProfile();
         }
     } else if (event.key === `ArrowRight`) {
         if (swipes === 0) {
             alert("Du må slette en favoritt før du kan legge til flere!");
         } else {
-            console.log(personToShow);
             updateSwipes();
-            likedProfile(personToShow); //legges til i localStorage
+            likedProfile(personToShow);
         }
     }
 }
 
-// eventlistner for taster og for at det informasjon skal bli hentet inn med engang du laster inn siden
-// window.addEventListener("load", getRandomUsers);
+// eventlistner for taster
 window.addEventListener("keydown", swipeLeftAndRight);
 
 showLikedProfiles();
@@ -252,23 +241,13 @@ function editPerson(index) {
     saveToLocalStorage(likedProfiles);
     //oppdaterer profilen
     showLikedProfiles();
-    console.log("Vi skal nå redigere index: ", index);
 }
-// Vi har to slettefunksjoner, for databasen, og for likte profiler!
+
 // Fjerner fra databasen når vi swiper venstre
 function removeProfile(index) {
-    // const index = sortedPeople.findIndex(
-    //     (profile) => profile === personToShow
-    // );
     sortedPeople.splice(index, 1);
-    // if (index !== -1) {
-    //     likedProfiles.splice(index, 1);
-    //     saveToLocalStorage();
-    //     createProfile();
-    // }
 }
 function deletePerson(person) {
-    // Mottar index som skal slettes fra likedProfiles
     likedProfiles.splice(person, 1);
     likes++;
     saveToLocalStorage(likedProfiles);
