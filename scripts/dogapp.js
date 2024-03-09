@@ -138,10 +138,16 @@ function createDogsProfileCard(array, delBtn) {
         const dogCard = document.createElement("article");
         dogCard.classList.add("card");
         dogCard.innerHTML = `<img src= "${array[index].image}" alt="${array[index].name}" style="width: 100%">`;
+        dogCard.style.position = "relative";
 
         const humanImg = document.createElement("div");
-        humanImg.innerHTML = `<img src="${array[index].human}" alt="${array[index].name}">`;
-        humanImg.style.zIndex = "10";
+        humanImg.style.display = "flex";
+        humanImg.style.position = "absolute";
+        humanImg.innerHTML = `<img src="${array[index].human}" alt="${array[index].name}" style="width: 90px; border-radius: 50%">`;
+        humanImg.style.right = "5px";
+        humanImg.style.top = "130px";
+        humanImg.style.border = "2px solid darkgrey";
+        humanImg.style.borderRadius = "50%";
 
         const dogInfo = document.createElement("div");
         dogInfo.classList.add("container");
