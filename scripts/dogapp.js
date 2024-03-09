@@ -43,7 +43,6 @@ breeds.forEach((breed) => {
 sortOnRace.addEventListener("change", () => {
     if (sortOnRace.value === "dittvalg") {
         makeDogsArray();
-        console.log("do nothing");
     } else {
         showSelectedBreed(sortOnRace.value);
     }
@@ -65,7 +64,6 @@ async function fetchBreedDogs() {
         // Finner et tilfeldig antall hunder pr rase( 5 - 25)
         const randomNumber = Math.floor(Math.random() * 16) + 5;
         if (breed.breed === "dittvalg") {
-            console.log("Hopp over");
         } else {
             if (breed.breed === "retriever-golden") {
                 breed.breed = "retriever/golden";
@@ -249,12 +247,11 @@ function showGreeting(dogCard) {
         greetingsBubble.style.textAlign = "center";
         greetingsBubble.style.borderRadius = "45%";
         dogCard.appendChild(greetingsBubble);
-//fjerner greeting etter 3 sekunder
-    setTimeout(() => {
-        greetingsBubble.remove();
-    }, 3000);
-     
-    } 
+        //fjerner greeting etter 3 sekunder
+        setTimeout(() => {
+            greetingsBubble.remove();
+        }, 3000);
+    }
     // hvis ingen greeting så blir det opprettet en ny
 }
 //merget
