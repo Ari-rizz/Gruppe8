@@ -257,7 +257,6 @@ function dogChat(dog) {
     chatContainer.style.position = "fixed";
     chatContainer.style.bottom = "0px";
     chatContainer.style.right = "200px";
-    chatContainer.style.marginRight = "10px";
 
     const chatBox = document.createElement("div");
     chatBox.style.display = "flex";
@@ -267,8 +266,8 @@ function dogChat(dog) {
     chatBox.style.color = "black";
     chatBox.style.height = "100%";
     chatBox.style.width = "100%";
-
-    // const
+    chatBox.style.marginRight = "10px";
+    chatBox.style.padding = "5px";
 
     const nameBox = document.createElement("div");
     nameBox.width = "100%";
