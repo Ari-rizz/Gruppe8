@@ -149,6 +149,7 @@ function likedProfile(person) {
         swipes--;
         likes--;
         updateSwipes();
+        createProfile();
         likedProfiles.push(person);
         saveToLocalStorage(likedProfiles);
     }
@@ -158,17 +159,22 @@ function swipeLeftAndRight(event) {
     if (event.key === `ArrowLeft`) {
         if (swipes === 0) {
             alert("Du må slette en favoritt før du kan legge til flere!");
+        } else {
+            swipes--;
+            console.log(swipes);
+            console.log(likes);
+            updateSwipes();
+            removeProfile(personToShowIndex); //fjerner perosnen som blir swipet til venstre
+            createProfile(); //henter ny profil
         }
-        swipes--;
-        likes--;
-        updateSwipes();
-        removeProfile(personToShowIndex); //fjerner perosnen som blir swipet til venstre
-        createProfile(); //henter ny profil
     } else if (event.key === `ArrowRight`) {
-        console.log(personToShow);
-        updateSwipes();
-        likedProfile(personToShow); //legges til i localStorage
-        createProfile(); //henter ny profil
+        if (swipes === 0) {
+            alert("Du må slette en favoritt før du kan legge til flere!");
+        } else {
+            console.log(personToShow);
+            updateSwipes();
+            likedProfile(personToShow); //legges til i localStorage
+        }
     }
 }
 
