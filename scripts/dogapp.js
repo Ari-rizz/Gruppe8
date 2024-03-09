@@ -153,9 +153,11 @@ function createDogsProfileCard(array, delBtn) {
         dogCard.appendChild(dogInfo);
 
         const chatButton = document.createElement("button");
+        chatButton.classList.add("chatBtn");
         chatButton.textContent = "Chat";
         chatButton.addEventListener("click", () => {
-            //Chat funksjon her
+            console.log("click");
+            dogChat(dog);
         });
         if (delBtn === true) {
             const deleteButton = document.createElement("button");
@@ -248,6 +250,46 @@ function showGreeting(dogCard) {
 }
 //merget
 
-function dogChat() {
+function dogChat(dog) {
+    console.log(dog);
     // Lager en chat-boks nede i høyre hjørne, som dukker opp når vi trykker på chat-knappen.
+    let chatContainer = document.querySelector(".chat-container");
+    chatContainer.style.display = "flex";
+    chatContainer.style.position = "fixed";
+    chatContainer.style.bottom = "0px";
+    chatContainer.style.right = "200px";
+    chatContainer.style.backgroundColor = "white";
+
+    let chatBox = document.createElement("div");
+    chatBox.style.display = "flex";
+    chatBox.style.flexDirection = "column";
+    chatBox.style.color = "black";
+    chatBox.style.height = "100%";
+    chatBox.style.width = "100%";
+
+    const nameBox = document.createElement("div");
+    nameBox.width = "100%";
+    nameBox.innerHTML = `Du chatter nå med ${dog.name}`;
+
+    const chatWindow = document.createElement("div");
+    chatWindow.style.display = "flex";
+    chatWindow.style.flexDirection = "column";
+    chatWindow.innerHTML = `<p>Hei! Vil du passe hunden min?</p>`;
+
+    const answerField = document.createElement("div");
+    answerField.style.display = "flex";
+
+    const inputField = document.createElement("input");
+    inputField.style.width = "70%";
+    const answerBtn = document.createElement("button");
+    answerBtn.textContent = "Svar";
+    answerBtn.addEventListener("click", () => {
+        chatWindow.innerHTML += inputField.value;
+        inputField.value = "";
+    });
+
+    answerField.append(inputField, answerBtn);
+
+    chatBox.append(nameBox, chatWindow, answerField);
+    chatContainer.appendChild(chatBox);
 }
