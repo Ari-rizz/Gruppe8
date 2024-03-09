@@ -141,10 +141,7 @@ function createDogsProfileCard(array, delBtn) {
 
         const humanImg = document.createElement("div");
         humanImg.innerHTML = `<img src="${array[index].human}" alt="${array[index].name}">`;
-        humanImg.style.display = "flex";
-        humanImg.style.position = "relative";
-        humanImg.style.zIndex = "100";
-        humanImg.style.top = "10px";
+        humanImg.style.zIndex = "10";
 
         const dogInfo = document.createElement("div");
         dogInfo.classList.add("container");
