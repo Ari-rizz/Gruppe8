@@ -256,12 +256,66 @@ function showGreeting(dogCard) {
 }
 //merget
 
-// Funksjonen dogChat(dog) lager en chat-boks for et gitt kort:
+// CHAT ----------------------------------------------------------
+
+function createMessageContainer(message, savedMessages, chatContainerId) {
+  // Opprett en div for meldingskontaineren
+  const messageContainer = document.createElement("div");
+  messageContainer.classList.add("message-container");
+
+  // Opprett et p-element for meldingsteksten
+  const messageText = document.createElement("p");
+  messageText.textContent = message;
+  messageContainer.appendChild(messageText);
+
+  // Opprett knapp for å redigere meldingen
+  const editBtn = createEditButton(message, savedMessages, chatContainerId);
+  messageContainer.appendChild(editBtn);
+
+  // Opprett knapp for å slette meldingen
+  const deleteBtn = createDeleteButton(message, savedMessages, chatContainerId);
+  messageContainer.appendChild(deleteBtn);
+
+  return messageContainer;
+}
+
+function createEditButton(message, savedMessages, chatContainerId) {
+  // Opprett en knapp for å redigere meldingen
+  const editBtn = document.createElement("button");
+  editBtn.textContent = "Rediger";
+  editBtn.addEventListener("click", () => {
+    // Spør brukeren om å redigere meldingen
+    const editedMessage = prompt("Rediger melding:", message);
+    if (editedMessage !== null) {
+      // Oppdater meldingen hvis brukeren gjør endringer
+      const index = savedMessages.indexOf(message);
+      savedMessages[index] = editedMessage;
+      localStorage.setItem(chatContainerId, JSON.stringify(savedMessages));
+      messageText.textContent = editedMessage;
+    }
+  });
+  return editBtn;
+}
+
+function createDeleteButton(message, savedMessages, chatContainerId) {
+  // Opprett en knapp for å slette meldingen
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Slett";
+  deleteBtn.addEventListener("click", () => {
+    // Slett meldingen fra DOM og lagringen i localStorage
+    const index = savedMessages.indexOf(message);
+    savedMessages.splice(index, 1);
+    localStorage.setItem(chatContainerId, JSON.stringify(savedMessages));
+    messageContainer.remove();
+  });
+  return deleteBtn;
+}
+
 function dogChat(dog) {
   // Opprett en unik ID for chat-containeren basert på hundens navn
   let chatContainerId = `chat-container-${dog.name.replace(" ", "-")}`;
   // Finn alle eksisterende chat-containere
-  let chatContainers = document.querySelectorAll('.chat-container');
+  let chatContainers = document.querySelectorAll(".chat-container");
   // Tell antall eksisterende chat-containere
   let existingChatCount = chatContainers.length;
   // Finn chat-containeren basert på den unike ID-en
@@ -332,47 +386,11 @@ function dogChat(dog) {
   // Legg til lagrede meldinger i chat-vinduet
   savedMessages.forEach((message, index) => {
     if (message.trim() !== "") {
-      // Opprett en unik ID for hver melding
-      const messageId = `message-${index}`;
-
-      // Opprett containeren for hver melding
-      const messageContainer = document.createElement("div");
-      messageContainer.classList.add("message-container");
-      messageContainer.id = messageId;
-
-      // Legg til teksten til meldingen
-      const messageText = document.createElement("p");
-      messageText.textContent = message;
-      messageContainer.appendChild(messageText);
-
-      // Legg til knapp for å redigere meldingen
-      const editBtn = document.createElement("button");
-      editBtn.textContent = "Rediger";
-      editBtn.addEventListener("click", () => {
-        const editedMessage = prompt(
-          "Rediger melding:",
-          messageText.textContent
-        );
-        if (editedMessage !== null) {
-          messageText.textContent = editedMessage;
-          // Oppdater den redigerte meldingen i localStorage
-          savedMessages[index] = editedMessage;
-          localStorage.setItem(chatContainerId, JSON.stringify(savedMessages));
-        }
-      });
-      messageContainer.appendChild(editBtn);
-
-      // Legg til knapp for å slette meldingen
-      const deleteBtn = document.createElement("button");
-      deleteBtn.textContent = "Slett";
-      deleteBtn.addEventListener("click", () => {
-        // Fjern meldingen fra DOM-en og lagringen i localStorage
-        messageContainer.remove();
-        savedMessages.splice(index, 1);
-        localStorage.setItem(chatContainerId, JSON.stringify(savedMessages));
-      });
-      messageContainer.appendChild(deleteBtn);
-
+      const messageContainer = createMessageContainer(
+        message,
+        savedMessages,
+        chatContainerId
+      );
       chatWindow.appendChild(messageContainer);
     }
   });
@@ -392,10 +410,10 @@ function dogChat(dog) {
   answerBtn.textContent = "Svar";
   answerBtn.addEventListener("click", sendMessage); // Kall sendMessage når Svar-knappen klikkes
 
-  // Funksjon for å sende meldingen
-  function sendMessage() {
-    let newMessage = inputField.value;
-    if (newMessage.trim() !== "") {
+// Funksjon for å sende meldingen
+function sendMessage() {
+  let newMessage = inputField.value;
+  if (newMessage.trim() !== "") {
       // Opprett container for den nye meldingen
       const messageContainer = document.createElement("div");
       messageContainer.classList.add("message-container");
@@ -405,21 +423,34 @@ function dogChat(dog) {
       messageText.textContent = newMessage;
       messageContainer.appendChild(messageText);
 
+      // Lagre meldingen i localStorage
+      let savedMessages = JSON.parse(localStorage.getItem(chatContainerId)) || [];
+      savedMessages.push(newMessage);
+      localStorage.setItem(chatContainerId, JSON.stringify(savedMessages));
+
       // Legg til knapp for å redigere den nye meldingen
       const editBtn = document.createElement("button");
       editBtn.textContent = "Rediger";
       editBtn.addEventListener("click", () => {
-        const editedMessage = prompt(
-          "Rediger melding:",
-          messageText.textContent
-        );
-        if (editedMessage !== null) {
-          messageText.textContent = editedMessage;
-          // Oppdater den redigerte meldingen i localStorage
-          const index = savedMessages.indexOf(newMessage);
-          savedMessages[index] = editedMessage;
-          localStorage.setItem(chatContainerId, JSON.stringify(savedMessages));
-        }
+          const editedMessage = prompt("Rediger melding:", messageText.textContent);
+          if (editedMessage !== null) {
+              if (editedMessage.trim() === "") {
+                  // Hvis redigert melding er tom, fjern meldingen
+                  messageContainer.remove();
+                  let messageIndex = savedMessages.indexOf(newMessage);
+                  if (messageIndex !== -1) {
+                      savedMessages.splice(messageIndex, 1);
+                      localStorage.setItem(chatContainerId, JSON.stringify(savedMessages));
+                  }
+              } else {
+                  messageText.textContent = editedMessage;
+                  let messageIndex = savedMessages.indexOf(newMessage);
+                  if (messageIndex !== -1) {
+                      savedMessages[messageIndex] = editedMessage;
+                      localStorage.setItem(chatContainerId, JSON.stringify(savedMessages));
+                  }
+              }
+          }
       });
       messageContainer.appendChild(editBtn);
 
@@ -427,25 +458,24 @@ function dogChat(dog) {
       const deleteBtn = document.createElement("button");
       deleteBtn.textContent = "Slett";
       deleteBtn.addEventListener("click", () => {
-        // Fjern meldingen fra DOM-en og lagringen i localStorage
-        messageContainer.remove();
-        const index = savedMessages.indexOf(newMessage);
-        if (index !== -1) {
-          savedMessages.splice(index, 1);
-          localStorage.setItem(chatContainerId, JSON.stringify(savedMessages));
-        }
+          // Fjern meldingen fra DOM-en
+          messageContainer.remove();
+
+          // Finn indeksen til den slettede meldingen i localStorage og fjern den
+          let messageIndex = savedMessages.indexOf(newMessage);
+          if (messageIndex !== -1) {
+              savedMessages.splice(messageIndex, 1);
+              localStorage.setItem(chatContainerId, JSON.stringify(savedMessages));
+          }
       });
       messageContainer.appendChild(deleteBtn);
 
       chatWindow.appendChild(messageContainer);
 
-      // Legg til den nye meldingen til lagring i localStorage
-      savedMessages.push(newMessage);
-      localStorage.setItem(chatContainerId, JSON.stringify(savedMessages));
-
       inputField.value = ""; // Tøm input-feltet etter at meldingen er sendt
-    }
   }
+}
+
 
   answerField.append(inputField, answerBtn);
 
