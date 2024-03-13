@@ -256,26 +256,30 @@ function showGreeting(dogCard) {
 }
 //merget
 
-// Funksjonen dogChat(dog) lager en chat-boks for et gitt kort.
+// Funksjonen dogChat(dog) lager en chat-boks for et gitt kort:
 function dogChat(dog) {
-  // Generer en unik ID for chat-containeren basert på hundens navn
+  // Opprett en unik ID for chat-containeren basert på hundens navn
   let chatContainerId = `chat-container-${dog.name.replace(" ", "-")}`;
+  // Finn alle eksisterende chat-containere
+  let chatContainers = document.querySelectorAll('.chat-container');
+  // Tell antall eksisterende chat-containere
+  let existingChatCount = chatContainers.length;
   // Finn chat-containeren basert på den unike ID-en
-  let chatContainer = document.querySelector(
-    `#chat-container-${dog.name.replace(" ", "-")}`
-  );
+  let chatContainer = document.querySelector(`#${chatContainerId}`);
 
   // Sjekk om chat-containeren allerede eksisterer
   if (!chatContainer) {
     // Hvis chat-containeren ikke eksisterer, opprett en ny
     chatContainer = document.createElement("div");
-    chatContainer.id = `chat-container-${dog.name.replace(" ", "-")}`;
+    chatContainer.id = chatContainerId;
     chatContainer.classList.add("chat-container");
-    chatContainer.style.display = "flex"; // Skjul den til å begynne med
+    // Sett display til "flex" for å justere innholdet horisontalt
+    chatContainer.style.display = "flex";
     chatContainer.style.position = "fixed";
-    chatContainer.style.bottom = "0px"; // Plasser nederst på siden
-    chatContainer.style.right = "200px"; // Plasser ved siden av hverandre, 200px fra høyre
-    document.body.appendChild(chatContainer); // Legg til chat-container i body
+    chatContainer.style.bottom = "0px";
+    // Plasser chat-containeren ved siden av eksisterende chat-containere (220 + 30 px)
+    chatContainer.style.right = `${250 * existingChatCount}px`;
+    document.body.appendChild(chatContainer);
   } else {
     // Hvis chat-containeren allerede eksisterer, tøm innholdet
     chatContainer.innerHTML = "";
